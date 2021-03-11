@@ -184,4 +184,10 @@ def config_init():
     logger_setup()
     check_for_config_file()
 
+    LOGIT.info(f"")
+    desired_length = 60
+    gap = desired_length - len(APP_NAME) - len(APP_VER)
+    LOGIT.info(f"{APP_NAME}{gap*' '}{APP_VER}")
+    LOGIT.info(f"{desired_length*'-'}")
+
 config_init()
