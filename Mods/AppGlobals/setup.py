@@ -11,7 +11,7 @@ from types import SimpleNamespace
 p = Path(os.path.dirname(os.path.realpath(__file__)))
 LAUNCH_DIR = p.parent.parent
 APP_NAME = "Treadstone" 
-APP_VER = "v1.0.0"
+APP_VER = "v1.00.001"
 
 LOGIT = None 
 
