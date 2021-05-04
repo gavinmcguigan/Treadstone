@@ -11,7 +11,7 @@ from types import SimpleNamespace
 p = Path(os.path.dirname(os.path.realpath(__file__)))
 LAUNCH_DIR = p.parent.parent
 APP_NAME = "Treadstone" 
-APP_VER = "v1.00.001"
+APP_VER = "v1.00.002"
 
 LOGIT = None 
 
@@ -24,6 +24,7 @@ LIBRARIES_DIR = os.path.join(SANDBOX_DIR, "Libs")
 VARFILE_DIR = os.path.join(SANDBOX_DIR, "VariableFiles")
 CONFIG_DIR = os.path.join(SANDBOX_DIR, "Config")
 SCRIPT_DIR = os.path.join(SANDBOX_DIR, "Scripts")
+RESOURCE_DIR = os.path.join(SANDBOX_DIR, "Resources")
 LOG_DIR = os.path.join(SANDBOX_DIR, 'Logs')
 ROBOT_TEST_LOGS = os.path.join(LOG_DIR, "RobotTestLogs")
 LIB_DOC_DIR = os.path.join(LOG_DIR, "LibDocs")
@@ -57,7 +58,7 @@ DEFAULTS = {
     "EXCLUDE": ['Broken'],
     "INCLUDE": [],
     "LISTENERS": [],
-    "PYTHONPATH": [LIBRARIES_DIR],
+    "PYTHONPATH": [LIBRARIES_DIR, RESOURCE_DIR],
     "CHOICES": [],
     "TEST_LOCATIONS": {
         APP_NAME: [TESTS_DIR],
@@ -80,7 +81,7 @@ CONFIG = {}
 
 def create_dirs():
     CREATE_DIRS = {
-        SANDBOX_DIR: [TESTS_DIR, LISTENERS_DIR, LIBRARIES_DIR, VARFILE_DIR, CONFIG_DIR, SCRIPT_DIR],
+        SANDBOX_DIR: [TESTS_DIR, LISTENERS_DIR, LIBRARIES_DIR, VARFILE_DIR, CONFIG_DIR, SCRIPT_DIR, RESOURCE_DIR],
         LOG_DIR: [ROBOT_TEST_LOGS, LIB_DOC_DIR, TREADSTONE_LOG]}
 
     for k, directories in CREATE_DIRS.items():
@@ -88,12 +89,12 @@ def create_dirs():
             os.mkdir(k)
         except OSError:
             pass
-        else:
-            for directory in directories:
-                try:
-                    os.mkdir(directory)
-                except OSError:
-                    pass
+        
+        for directory in directories:
+            try:
+                os.mkdir(directory)
+            except OSError:
+                pass
 
 class TreadstoneFileHandler(RotatingFileHandler):
     def __init__(self, *args, **kwargs):

@@ -26,8 +26,8 @@ class TestMenu():
                 if choice in ['Q', 'q']:
                     break 
 
-                # elif choice == '#':
-                #     return None, 'Documentation', None, None 
+                elif choice == '#':
+                    return 'Documentation' 
 
                 else:
                     if self.parse_cmd(choice):
