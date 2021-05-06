@@ -6,7 +6,7 @@ import os
 import pprint 
 from Mods.AppGlobals.setup import LOGIT, get_config
 
-def get_test_cases(file_name=str) -> list:
+def get_test_cases(file_name: str) -> list:
     """ Returns a list of test cases found in the file passed in.  """
     if not file_name.endswith('.robot') and not file_name.endswith('.txt'):
         return []
@@ -16,7 +16,11 @@ def get_test_cases(file_name=str) -> list:
     except (IOError, UnicodeDecodeError, DataError):
         return []
     else:
-        return testcases     
+        return testcases   
+
+def get_keywords(file_name: str):
+    # Prob don't need this, libdoc maybe throws an error when no keywords?
+    pass 
 
 def get_project_locations(profile='') -> dict:
     # global _PROJECT_TOTALS
@@ -66,6 +70,18 @@ def check_if_test_file(file_name: str) -> int:
     return len(get_test_cases(file_name=file_name))       
 
 def generate_libdocs():
+    resource_dirs = get_config().RESOURCE_DIRS
+    for dir in resource_dirs:
+        print(dir) 
+        files = os.listdir(dir)
+        for f in files:
+            print(f)
+
+    return 
+
+    # generate kw reports.
+    # Save to file.  
+
     print(""" Work in progress, still to find out a few things. """)
 
     # --- Temp  ---

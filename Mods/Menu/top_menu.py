@@ -88,7 +88,7 @@ class TestMenu():
 
         elif cmd == '#':
             GF.generate_libdocs() 
-            sleep(1)
+            self.test_just_ran = True
             return True 
         
         elif cmd == 'profile':

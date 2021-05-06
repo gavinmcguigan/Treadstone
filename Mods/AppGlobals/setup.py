@@ -14,6 +14,17 @@ APP_NAME = "Treadstone"
 APP_VER = "v1.01.000"
 
 LOGIT = None 
+TEST_REPOS = [
+    'content-portal-test',
+    'identity-test',
+    'lab-static-test',
+    'lab-web-test',
+    'labc-test',
+    'notebook-test',
+    'session-test',
+    'shared-web-test',
+    'slso-suite-test', 
+    ]
 
 # -------------------------------------------------------------------------------------- Directories
 SANDBOX_DIR = os.path.join(LAUNCH_DIR, 'Sandbox')
@@ -61,6 +72,12 @@ DEFAULTS = {
     "INCLUDE": [],
     "LISTENERS": [],
     "PYTHONPATH": [LIBRARIES_DIR, RESOURCE_DIR],
+    "RESOURCE_DIRS": [
+        RESOURCE_DIR,
+        os.path.join(REPO_DIR, "slso-suite-test", "keywords"),
+        os.path.join(REPO_DIR, "shared-web-test", "keywords")
+
+        ],
     "CHOICES": [],
     "TEST_LOCATIONS": {
         APP_NAME: [TESTS_DIR],
@@ -128,10 +145,10 @@ def check_for_profiles():
     PROFILES = {f: os.path.join(CONFIG_DIR, f) for f in os.listdir(CONFIG_DIR) if f.endswith('.json')}
 
     # Check profiles have defaults. 
-    for profile in PROFILES:
-        json_data = read_json_from_config_file(profile)
+    for profile, profile_path in PROFILES.items():
+        json_data = read_json_from_config_file(profile_path)
         modified_json = check_json_data(json_data)
-        write_actual_config_to_file(profile, modified_json)
+        write_actual_config_to_file(profile_path, modified_json)
 
 def check_for_config_file():
     global CONFIG 
@@ -195,6 +212,7 @@ def switch_profile_gen():
     LOGIT.info(f'{len(PROFILES)} Profiles Initiated')
     while True:
         for profile, profile_path in PROFILES.items():
+            LOGIT.info(f"{profile}: {profile_path}")
             json_data = read_json_from_config_file(profile_path)
             modified_json = check_json_data(json_data)
             write_actual_config_to_file(profile_path, modified_json)
@@ -222,3 +240,9 @@ def config_init():
     LOGIT.info(f"{desired_length*'-'}")
 
 config_init()
+
+
+"""
+
+
+"""
