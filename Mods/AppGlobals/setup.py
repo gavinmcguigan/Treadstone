@@ -11,7 +11,7 @@ from types import SimpleNamespace
 p = Path(os.path.dirname(os.path.realpath(__file__)))
 LAUNCH_DIR = p.parent.parent
 APP_NAME = "Treadstone" 
-APP_VER = "v1.00.002"
+APP_VER = "v1.00.003"
 
 LOGIT = None 
 
@@ -55,7 +55,7 @@ DEFAULTS = {
         "SIGNINMS": False,
         "WEBENV": "dev"
     },
-    "EXCLUDE": ['Broken'],
+    "EXCLUDE": [],
     "INCLUDE": [],
     "LISTENERS": [],
     "PYTHONPATH": [LIBRARIES_DIR, RESOURCE_DIR],
@@ -95,7 +95,6 @@ def create_dirs():
                 os.mkdir(directory)
             except OSError:
                 pass
-
 class TreadstoneFileHandler(RotatingFileHandler):
     def __init__(self, *args, **kwargs):
         RotatingFileHandler.__init__(self, *args, **kwargs)
@@ -133,7 +132,6 @@ def check_for_config_file():
 
     write_actual_config_to_file()
     
-
 def read_json_from_config_file():
     global CONFIG
     try:
@@ -146,26 +144,29 @@ def read_json_from_config_file():
     except json.decoder.JSONDecodeError:
         LOGIT.error("There's a problem with the config.json file. ")
         
-    
 def check_json_file():
     global CONFIG
     """ Loop through default config, check that key exists in actual config, if not, add it"""
     
     read_in_config = vars(CONFIG)
-    defaul_config_dict = vars(DEFAULT_CONFIG)
+    default_config_dict = vars(DEFAULT_CONFIG)
 
-    for k, v in defaul_config_dict.items():
-        exists = read_in_config.get(k, None)
-        if not exists:
+    for k, v in default_config_dict.items():
+        # If the key doesn't exist, add it + the default value. 
+        if k not in read_in_config: 
             read_in_config[k] = v 
 
-        # Make sure each required config param is what it should be, List or Dict. 
+        # Looks for key (k) and returns it's value or None if doesn't exist. 
+        value = read_in_config.get(k, None)
+
+        # If value is not a dict, make it the default dict. 
         if k in ["TEST_LOCATIONS", "ENV_VARS"]:
-            if not isinstance(exists, dict):
+            if not isinstance(value, dict):
                 read_in_config[k] = v
 
+        # If value is not a list, make it the default list. 
         elif k in ["CHOICES", "EXCLUDE", "INCLUDE", "LISTENERS", "PYTHONPATH", "VARIABLE_FILES"]:
-            if not isinstance(exists, list):
+            if not isinstance(value, list):
                 read_in_config[k] = v 
 
 
