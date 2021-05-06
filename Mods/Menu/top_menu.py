@@ -1,14 +1,15 @@
-from Mods.AppGlobals.setup import LOGIT, CONFIG, APP_NAME, APP_VER, CONFIG_DIR   # Has to be first import!
+from Mods.AppGlobals.setup import LOGIT, get_config, APP_NAME, APP_VER, CONFIG_DIR   # Has to be first import!
 from Mods.AppGlobals import app_globals_funcs as GF
-from os import path, listdir, walk  
+from os import path, listdir  
+from time import sleep 
 
 _START_MENU = None
     
 
 class TestMenu():
-    def __init__(self):
-        self.project_locations = GF.get_project_locations()     # 
-
+    def __init__(self, profile_name):
+        self.profile = profile_name[:-5]
+        self.project_locations = GF.get_project_locations(profile_name)     # 
         self.where_we_are = 'PROJECTS'                          # Can be PROJECTS, TEST_SUITES or TEST_CASES
         self.project, self.test_suite, self.test_case = None, None, None 
         self.display_options = self.project_locations 
@@ -21,13 +22,13 @@ class TestMenu():
         self.test_just_ran = True       # Reset after test run.  Stops the clear screen.
 
         while True:
-            if CONFIG.CHOICES:
-                choice = str(CONFIG.CHOICES.pop(0))
+            if get_config().CHOICES:
+                choice = str(get_config().CHOICES.pop(0))
                 if choice in ['Q', 'q']:
-                    break 
+                    break
 
-                elif choice == '#':
-                    return 'Documentation' 
+                elif choice in ['p', 'P']:
+                    return "Switch Profile" 
 
                 else:
                     if self.parse_cmd(choice):
@@ -76,7 +77,12 @@ class TestMenu():
     def parse_cmd(self, cmd):
         if cmd == 'b':
             self.move_back()
-            return True 
+            return True
+
+        elif cmd == '#':
+            GF.generate_libdocs() 
+            sleep(1)
+        
         else:
             LOGIT.debug('{}'.format(cmd))
 
@@ -100,10 +106,11 @@ class TestMenu():
         self.test_case = self.display_options[usr_choice - 1] 
 
     def get_user_choices(self):  
-        choice = input('   > ')
+        print('')
+        choice = input(f'   {self.profile} > ')
         if choice:
             for ch in choice.split(' '):
-                CONFIG.CHOICES.append(ch)
+                get_config().CHOICES.append(ch)
 
     def move_back(self):     
         """ Moves back in the menu and sets the variables for new location. """
@@ -170,27 +177,26 @@ class TestMenu():
                 print("   {}. {}".format(n+1, each))
         print
 
-def start_menu():
-    global _START_MENU
+# def start_menu():
+#     global _START_MENU
 
-    if _START_MENU is None:
-        _START_MENU = TestMenu()
+#     if _START_MENU is None:
+#         _START_MENU = TestMenu()
 
-    return _START_MENU.run()
+#     return _START_MENU.run()
 
-def menu_setup():
-    global _START_MENU
-    if _START_MENU is None:
-        _START_MENU = TestMenu()
+# def menu_setup(profile_name):
+#     global _START_MENU
+#     _START_MENU = TestMenu(profile_name)
     
-    # 
-    if _START_MENU.project_locations:
-        return _START_MENU.run
-    else:
-        print('\n\n-----------> NO TEST CASES FOUND!! <-----------\n')
-        print(f'Check the TEST_LOCATIONS are correct in the config file at : {CONFIG_DIR}\n')
-        for _, v in CONFIG.TEST_LOCATIONS.items():
-            for locs in v:
-                print(f' ->  {locs}')
-        print() 
-        return False 
+#     # 
+#     if _START_MENU.project_locations:
+#         return _START_MENU.run
+#     else:
+#         print('\n\n-----------> NO TEST CASES FOUND!! <-----------\n')
+#         print(f'Check the TEST_LOCATIONS are correct in the config file at : {CONFIG_DIR}\n')
+#         for _, v in get_config().TEST_LOCATIONS.items():
+#             for locs in v:
+#                 print(f' ->  {locs}')
+#         print() 
+#         return False 

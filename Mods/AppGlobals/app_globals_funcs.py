@@ -1,12 +1,9 @@
 from robot.libraries.BuiltIn import BuiltIn
 from robot.errors import DataError
 from robot.api import TestData
-import json
+from robot.libdoc import libdoc 
 import os 
-import sys
-import unicodedata
-from Mods.AppGlobals.setup import LOGIT, CONFIG
-
+from Mods.AppGlobals.setup import LOGIT, get_config
 
 def get_test_cases(file_name=str) -> list:
     """ Returns a list of test cases found in the file passed in.  """
@@ -20,17 +17,15 @@ def get_test_cases(file_name=str) -> list:
     else:
         return testcases     
 
-def get_project_locations() -> dict:
+def get_project_locations(profile='') -> dict:
     # global _PROJECT_TOTALS
     LOGIT.info("")
-    LOGIT.info("Searching all TEST_LOCATIONS for suites / test cases.")
-
-    # Create a list of project objects
+    LOGIT.info(f"-------------------- Profile {profile} selected -------------------- ")
+    LOGIT.info(f"Searching all TEST_LOCATIONS for suites / test cases.")
 
     counter = 0
     new_locations = {}
-    for proj, test_dirs in CONFIG.TEST_LOCATIONS.items():
-        # print "{}".format(test_dirs)
+    for proj, test_dirs in get_config().TEST_LOCATIONS.items():
         test_suite_count, test_case_count = 0, 0
         try:
             LOGIT.info("")
@@ -62,6 +57,45 @@ def check_if_test_file(file_name: str) -> int:
         return 0
         
     return len(get_test_cases(file_name=file_name))       
+
+def generate_libdocs():
+    print(""" Work in progress, still to find out a few things. """)
+
+    # --- Temp  ---
+    whichfile2 = "/Users/gav/Repos/TestRepos/shared-web-test/libs/CleanUp"
+    output_file2 = f"{whichfile2}/CleanUp.html"
+    libdoc(library_or_resource=whichfile2, outfile=output_file2, name="Cleanup Lib Keywords", version="1.0")
+
+
+    return
+
+    # Read the config file before checking for keywords. 
+    GV.read_config_from_json_file()
+
+    # Loop though libraries / keywords in config file. 
+    for libname, dir_list in GV.CFG_LIBRARIES.iteritems():
+        for n, lib_dir in enumerate(dir_list):
+            libname = libname.replace(" ", "")  # remove spaces from any name that has them. 
+            
+            name = "{}_{}.html".format(libname, n) if n else "{}.html".format(libname)
+            doc_file = create_dirs_if_not_exist_for_libdocs(libname, lib_dir, name)
+
+            # -------------------------------------------------------------------------------- 1. Python libraries
+            libdoc(library_or_resource=lib_dir, outfile=doc_file, name=name, version="{} {} Doc.".format(GV.APP_NAME, GV.APP_VER), docformat='ROBOT')
+        
+            # -------------------------------------------------------------------------------- 2. Robot Kw libraries
+            #  Loop through files in lib_dir and check for files that start with kw.
+            #  User can put filename in here or directory lib_dir != directory always. 
+            
+            if os.path.isdir(lib_dir):
+                # Dirs
+                for each_file in [f for f in os.listdir(lib_dir) if f.startswith('kw_')]:
+                    print("Dir file ->  {}".format(each_file))
+                
+            if os.path.isfile(lib_dir):
+                # Files 
+                print("File -> {}".format(lib_dir)) 
+
 
 # Env variables that can be changed from the command line. 
 # def set_envo(environment: str) -> bool:

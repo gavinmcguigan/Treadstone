@@ -11,7 +11,7 @@ from types import SimpleNamespace
 p = Path(os.path.dirname(os.path.realpath(__file__)))
 LAUNCH_DIR = p.parent.parent
 APP_NAME = "Treadstone" 
-APP_VER = "v1.00.003"
+APP_VER = "v1.01.000"
 
 LOGIT = None 
 
@@ -42,6 +42,8 @@ def get_os_run():
         op_sys = 'win'
 
     return op_sys
+
+PROFILES = []
 
 DEFAULTS = { 
     "ENV_VARS": {
@@ -75,7 +77,7 @@ DEFAULTS = {
     "VARIABLE_FILES": []
 }
 
-DEFAULT_CONFIG = SimpleNamespace(**DEFAULTS)
+# DEFAULT_CONFIG = SimpleNamespace(**DEFAULTS)
 CONFIG = {}
 
 
@@ -121,37 +123,45 @@ def logger_setup():
     handler = TreadstoneFileHandler(APP_LOG_FILE, mode='a', maxBytes=10000, backupCount=1, delay=0)
     LOGIT.addHandler(handler)
 
+def check_for_profiles():
+    global PROFILES
+    PROFILES = {f: os.path.join(CONFIG_DIR, f) for f in os.listdir(CONFIG_DIR) if f.endswith('.json')}
+    print(f'Profiles: {PROFILES}')
+
+    # Check profiles have defaults. 
+    for profile in PROFILES:
+        json_data = read_json_from_config_file(profile)
+        modified_json = check_json_data(json_data)
+        write_actual_config_to_file(profile, modified_json)
+
 def check_for_config_file():
-    global CONFIG
+    global CONFIG 
+    # default CONFIG_FILE has to exist, check if exists, if not create it. 
     if os.path.isfile(CONFIG_FILE):
-        read_json_from_config_file()
-        check_json_file()
-
+        json_data = read_json_from_config_file(CONFIG_FILE)
+        modified_json = check_json_data(json_data)
+        write_actual_config_to_file(CONFIG_FILE, modified_json)
+        
     else:
-        CONFIG = DEFAULT_CONFIG
+        write_actual_config_to_file(CONFIG_FILE, DEFAULTS)
 
-    write_actual_config_to_file()
-    
-def read_json_from_config_file():
-    global CONFIG
+def read_json_from_config_file(which_file):
     try:
-        with open(CONFIG_FILE, 'r') as f:
+        with open(which_file, 'r') as f:
             data = json.load(f)
-            CONFIG = SimpleNamespace(**data)
     
     except IOError as ioe:
         LOGIT.error(f"Failed to read from config file: {ioe}")
+        return {}
     except json.decoder.JSONDecodeError:
-        LOGIT.error("There's a problem with the config.json file. ")
+        return {}
+    else:
+        return data
         
-def check_json_file():
-    global CONFIG
-    """ Loop through default config, check that key exists in actual config, if not, add it"""
+def check_json_data(read_in_config):
+    """ Loop through default config, check that key exists in config file, if not, add it. """
     
-    read_in_config = vars(CONFIG)
-    default_config_dict = vars(DEFAULT_CONFIG)
-
-    for k, v in default_config_dict.items():
+    for k, v in DEFAULTS.items():
         # If the key doesn't exist, add it + the default value. 
         if k not in read_in_config: 
             read_in_config[k] = v 
@@ -167,24 +177,46 @@ def check_json_file():
         # If value is not a list, make it the default list. 
         elif k in ["CHOICES", "EXCLUDE", "INCLUDE", "LISTENERS", "PYTHONPATH", "VARIABLE_FILES"]:
             if not isinstance(value, list):
-                read_in_config[k] = v 
+                read_in_config[k] = v
 
+    return read_in_config 
 
-    CONFIG = SimpleNamespace(**read_in_config)
-
-def write_actual_config_to_file():
+def write_actual_config_to_file(which_file, data):
     # Write config to file in every case? Exists but no chaneg, Changed, Doesn't Exist. 
+    # CONFIG = SimpleNamespace(**data)
+
     try: 
-        with open(CONFIG_FILE, 'w+') as f:
-            json.dump(vars(CONFIG), f, indent=4, sort_keys=True)
+        with open(which_file, 'w+') as f:
+            json.dump(data, f, indent=4, sort_keys=True)
     except IOError as ioe:
         LOGIT.error(f"Failed to write to config file: {ioe}")
 
-        
+def switch_profile_gen():
+    global CONFIG
+    LOGIT.info(f'{len(PROFILES)} Profiles Initiated')
+    while True:
+        for profile, profile_path in PROFILES.items():
+            json_data = read_json_from_config_file(profile_path)
+            modified_json = check_json_data(json_data)
+            write_actual_config_to_file(profile_path, modified_json)
+            CONFIG = SimpleNamespace(**modified_json)
+
+            yield profile, profile_path 
+
+def get_config():
+    return CONFIG 
+
 def config_init():
     create_dirs()
     logger_setup()
+
+    # Check default profile/config exists
     check_for_config_file()
+    
+    # Get profiles and add to profile dict
+    check_for_profiles()
+
+
 
     LOGIT.info(f"")
     desired_length = 60

@@ -1,4 +1,4 @@
-from Mods.Bot.launcher import launch_test_case
+from Mods.Bot.launcher import launch_app
 
 if __name__ == "__main__":
-    launch_test_case()
+    launch_app()
