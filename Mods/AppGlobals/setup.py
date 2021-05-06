@@ -126,7 +126,6 @@ def logger_setup():
 def check_for_profiles():
     global PROFILES
     PROFILES = {f: os.path.join(CONFIG_DIR, f) for f in os.listdir(CONFIG_DIR) if f.endswith('.json')}
-    print(f'Profiles: {PROFILES}')
 
     # Check profiles have defaults. 
     for profile in PROFILES:
@@ -215,8 +214,6 @@ def config_init():
     
     # Get profiles and add to profile dict
     check_for_profiles()
-
-
 
     LOGIT.info(f"")
     desired_length = 60

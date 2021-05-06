@@ -3,6 +3,7 @@ from robot.errors import DataError
 from robot.api import TestData
 from robot.libdoc import libdoc 
 import os 
+import pprint 
 from Mods.AppGlobals.setup import LOGIT, get_config
 
 def get_test_cases(file_name=str) -> list:
@@ -25,7 +26,13 @@ def get_project_locations(profile='') -> dict:
 
     counter = 0
     new_locations = {}
-    for proj, test_dirs in get_config().TEST_LOCATIONS.items():
+
+    test_locations = get_config().TEST_LOCATIONS
+    if not test_locations:
+        LOGIT.error(f"No TEST_LOCATIONS defined in config file!!!")
+        return {}
+
+    for proj, test_dirs in test_locations.items():
         test_suite_count, test_case_count = 0, 0
         try:
             LOGIT.info("")
@@ -96,55 +103,8 @@ def generate_libdocs():
                 # Files 
                 print("File -> {}".format(lib_dir)) 
 
-
-# Env variables that can be changed from the command line. 
-# def set_envo(environment: str) -> bool:
-#     environment = environment.lower()
-#     valids = ['ppr', 'dev', 'uat']
-#     if environment in valids:
-#         GV.WEBENV = environment
-#         GV.CFG_ENV_VARS['webenv'] = environment
-#         return True
-#     LOGIT.debug("Invalid webenv: '{}'.  Valid webenvs: {}".format(environment, str(valids)))
-#     LOGIT.debug("WebEnv: {}".format(GV.WEBENV))
-#     return False
-
-# def set_accounts(account: str) -> bool:
-#     account = account.upper()
-#     # ENV_VAR signInMS is set here. 
-#     accepted = {'GOOGLE': 'google',
-#                 'GOOG': 'google',
-#                 'MS': 'microsoft',
-#                 'MICROSOFT': 'microsoft'}
-
-#     val = accepted.get(account, False)
-#     if val:
-#         GV.ACCOUNTS = val
-#         if GV.ACCOUNTS == 'google':
-#             GV.CFG_ENV_VARS['SIGNINMS'] = False
-#         else:
-#             GV.CFG_ENV_VARS['SIGNINMS'] = True         
-#         return True
-    
-#     LOGIT.debug("Invalid Account: '{}'.  Valid BRANCHES: {}".format(account, str(accepted.keys())))
-#     LOGIT.debug("Accounts: {}".format(GV.ACCOUNTS))
-#     return False
-
-# def set_branch(branch: str) -> bool:
-    # branch = branch.lower()
-    # accepted = {'dev': 'develop',
-    #             'develop': 'develop',
-    #             'master': 'master',
-    #             'mast': 'master',
-    #             'orlando': 'orlando',
-    #             'orl': 'orlando'}
-
-    # val = accepted.get(branch, False)
-
-    # if val:
-    #     GV.BRANCH = val 
-    #     GV.CFG_ENV_VARS['BRANCH'] = val
-    #     return True
-    # LOGIT.debug("Invalid Branch: '{}'.  Valid BRANCHES: {}".format(branch, str(accepted.keys())))
-    # GV.LOGIT.debug("Branch: {}".format(GV.BRANCH))
-    # return False
+def display_profile():
+    print()
+    pp = pprint.PrettyPrinter(indent=2)
+    config = get_config()
+    pp.pprint(vars(config))

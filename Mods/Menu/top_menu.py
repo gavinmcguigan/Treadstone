@@ -16,12 +16,19 @@ class TestMenu():
         self.test_just_ran = False
 
     def run(self):
-        """ Stays in this while loop until a testcase or test suite or test folder is selected. """ 
+        """ Stays in this while loop until a testcase / test suite // test folder is selected. 
+            Also exits if switching profile. 
+        """ 
         
         self.test_case = None           # After test is run, test_case gets reset. 
         self.test_just_ran = True       # Reset after test run.  Stops the clear screen.
 
         while True:
+            if not self.project_locations:
+                print()
+                print(f"   Profile '{self.profile}'' has no test cases at the TEST_LOCATIONS provided!!!")
+                return 'Switch Profile'
+
             if get_config().CHOICES:
                 choice = str(get_config().CHOICES.pop(0))
                 if choice in ['Q', 'q']:
@@ -82,7 +89,13 @@ class TestMenu():
         elif cmd == '#':
             GF.generate_libdocs() 
             sleep(1)
+            return True 
         
+        elif cmd == 'profile':
+            GF.display_profile()
+            self.test_just_ran = True
+            return True 
+
         else:
             LOGIT.debug('{}'.format(cmd))
 
