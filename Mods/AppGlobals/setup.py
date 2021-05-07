@@ -38,7 +38,7 @@ SCRIPT_DIR = os.path.join(SANDBOX_DIR, "Scripts")
 RESOURCE_DIR = os.path.join(SANDBOX_DIR, "Resources")
 LOG_DIR = os.path.join(SANDBOX_DIR, 'Logs')
 ROBOT_TEST_LOGS = os.path.join(LOG_DIR, "RobotTestLogs")
-LIB_DOC_DIR = os.path.join(LOG_DIR, "LibDocs")
+LIB_DOC_DIR = os.path.join(SANDBOX_DIR, "LibDocs")
 REPO_DIR = os.path.dirname(LAUNCH_DIR)       
 
 TREADSTONE_LOG = os.path.join(LOG_DIR, "{}Log".format(APP_NAME))
@@ -72,12 +72,16 @@ DEFAULTS = {
     "INCLUDE": [],
     "LISTENERS": [],
     "PYTHONPATH": [LIBRARIES_DIR, RESOURCE_DIR],
-    "RESOURCE_DIRS": [
-        RESOURCE_DIR,
-        os.path.join(REPO_DIR, "slso-suite-test", "keywords"),
-        os.path.join(REPO_DIR, "shared-web-test", "keywords")
-
-        ],
+    "RESOURCE_DIRS": {
+        "Treadstone": [RESOURCE_DIR],
+        "Content-Portal-Test": [os.path.join(REPO_DIR, "content-portal-test", "keywords")],
+        "Identity-Test": [os.path.join(REPO_DIR, "identity-test", "keywords")],
+        "Session-Test": [os.path.join(REPO_DIR, "session-test", "keywords")],
+        "Shared-Desktop-Test": [os.path.join(REPO_DIR, "shared-desktop-test", "keywords")],
+        "Shared-Web-Test": [os.path.join(REPO_DIR, "shared-web-test", "keywords")],
+        "SLSO-Suite-Test": [os.path.join(REPO_DIR, "slso-suite-test", "keywords")],
+        "Shared-Test": [os.path.join(REPO_DIR, "shared-test", "keywords")],
+    },
     "CHOICES": [],
     "TEST_LOCATIONS": {
         APP_NAME: [TESTS_DIR],
@@ -217,10 +221,14 @@ def switch_profile_gen():
             modified_json = check_json_data(json_data)
             write_actual_config_to_file(profile_path, modified_json)
             CONFIG = SimpleNamespace(**modified_json)
-
+            LOGIT.debug("")
+            LOGIT.debug(f"{80*'-'}")
+            for envvar, value in CONFIG.ENV_VARS.items():
+                LOGIT.debug(f" {envvar}:  {value}")
             yield profile, profile_path 
 
 def get_config():
+    global CONFIG     
     return CONFIG 
 
 def config_init():

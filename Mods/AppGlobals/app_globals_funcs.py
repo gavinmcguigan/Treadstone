@@ -1,10 +1,12 @@
 from robot.libraries.BuiltIn import BuiltIn
 from robot.errors import DataError
-from robot.api import TestData
+from robot.api import TestData, ResourceFile
 from robot.libdoc import libdoc 
 import os 
 import pprint 
-from Mods.AppGlobals.setup import LOGIT, get_config
+from Mods.AppGlobals.setup import LOGIT, get_config, LIB_DOC_DIR, SANDBOX_DIR
+
+all_kws = '*** Keywords ***\n'
 
 def get_test_cases(file_name: str) -> list:
     """ Returns a list of test cases found in the file passed in.  """
@@ -18,9 +20,22 @@ def get_test_cases(file_name: str) -> list:
     else:
         return testcases   
 
-def get_keywords(file_name: str):
-    # Prob don't need this, libdoc maybe throws an error when no keywords?
-    pass 
+def check_for_keywords(resource_file: str):
+    if not resource_file.endswith('.robot') and not resource_file.endswith('.txt') and not resource_file.endswith('.resource'):
+        return []
+
+    resource = ResourceFile(source=resource_file)
+    resource.populate()
+    keywords = [kw.name for kw in resource.keyword_table]
+    return keywords
+
+    # print('\n')
+    # print(f"{resource_file}")
+    # print(len(keywords))
+
+    
+
+ 
 
 def get_project_locations(profile='') -> dict:
     # global _PROJECT_TOTALS
@@ -71,53 +86,51 @@ def check_if_test_file(file_name: str) -> int:
 
 def generate_libdocs():
     resource_dirs = get_config().RESOURCE_DIRS
-    for dir in resource_dirs:
-        print(dir) 
-        files = os.listdir(dir)
-        for f in files:
-            print(f)
+    for name, direct in resource_dirs.items():
+        d = direct[0]
+        
+        print(f'\nChecking -> {d}')
+
+        all_kws = '*** Keywords ***'
+        counter = 0
+        for f in os.listdir(d):
+            resource_path = os.path.join(d, f)
+
+            kws = check_for_keywords(resource_path)
+            counter += len(kws)
+
+            # print(f'{f} ->  {len(kws)}')
+
+            if kws:
+                with open(resource_path, 'r') as openfile:
+                    whole_file = openfile.read()
+
+                    x = whole_file.find('*** Keywords ***')
+                    y = whole_file.find('*** keywords ***')
+
+                    all_kws += whole_file[x + 16:]
+
+                    # print(f"x {x}   {whole_file[x + 16: x + 40]}")
+                    # print(f"y {y}   {whole_file[y: y + 20]}")
+
+
+        if counter:
+            print(f"Keywords found: {counter}")
+            
+            write_here = os.path.join(SANDBOX_DIR, 'allkws.txt')
+
+            with open(write_here, 'w') as filetowrite:
+                filetowrite.writelines(all_kws)
+
+
+            libdoc(
+                library_or_resource=write_here, 
+                outfile=os.path.join(LIB_DOC_DIR, f'{name}.html'), 
+                name=f'{name}')
+                
 
     return 
 
-    # generate kw reports.
-    # Save to file.  
-
-    print(""" Work in progress, still to find out a few things. """)
-
-    # --- Temp  ---
-    whichfile2 = "/Users/gav/Repos/TestRepos/shared-web-test/libs/CleanUp"
-    output_file2 = f"{whichfile2}/CleanUp.html"
-    libdoc(library_or_resource=whichfile2, outfile=output_file2, name="Cleanup Lib Keywords", version="1.0")
-
-
-    return
-
-    # Read the config file before checking for keywords. 
-    GV.read_config_from_json_file()
-
-    # Loop though libraries / keywords in config file. 
-    for libname, dir_list in GV.CFG_LIBRARIES.iteritems():
-        for n, lib_dir in enumerate(dir_list):
-            libname = libname.replace(" ", "")  # remove spaces from any name that has them. 
-            
-            name = "{}_{}.html".format(libname, n) if n else "{}.html".format(libname)
-            doc_file = create_dirs_if_not_exist_for_libdocs(libname, lib_dir, name)
-
-            # -------------------------------------------------------------------------------- 1. Python libraries
-            libdoc(library_or_resource=lib_dir, outfile=doc_file, name=name, version="{} {} Doc.".format(GV.APP_NAME, GV.APP_VER), docformat='ROBOT')
-        
-            # -------------------------------------------------------------------------------- 2. Robot Kw libraries
-            #  Loop through files in lib_dir and check for files that start with kw.
-            #  User can put filename in here or directory lib_dir != directory always. 
-            
-            if os.path.isdir(lib_dir):
-                # Dirs
-                for each_file in [f for f in os.listdir(lib_dir) if f.startswith('kw_')]:
-                    print("Dir file ->  {}".format(each_file))
-                
-            if os.path.isfile(lib_dir):
-                # Files 
-                print("File -> {}".format(lib_dir)) 
 
 def display_profile():
     print()
