@@ -1,9 +1,14 @@
-from Mods.AppGlobals.setup import get_config, ROBOT_TEST_LOGS, LAUNCH_DIR, LOGIT, switch_profile_gen     # Has to be first import!
-from Mods.AppGlobals import app_globals_funcs as GF 
-from Mods.Menu.top_menu import TestMenu
+# from Mods.AppGlobals.setup import get_config, ROBOT_TEST_LOGS, LAUNCH_DIR, switch_profile_gen     # Has to be first import!
+from Mods import setup
+from Mods import top_menu
 from robot import run_cli 
 from time import time 
 import sys, os
+import logging
+
+logger = logging.getLogger(__name__)
+logger.debug('Init launcher.py')
+
 
 class TestLauncher:
     def __init__(self):
@@ -14,61 +19,61 @@ class TestLauncher:
     def set_log_output_dir(self, project_name=None, test_file=None):
         """ Set the log output directory based on the suite / test case passed in. """
         if test_file is not None:
-            self.outputdir = os.path.join(ROBOT_TEST_LOGS, test_file.replace('.robot', ''))
-            self.outputdir = os.path.join(ROBOT_TEST_LOGS, test_file.replace('.txt', ''))
+            self.outputdir = os.path.join(setup.ROBOT_TEST_LOGS, test_file.replace('.robot', ''))
+            self.outputdir = os.path.join(setup.ROBOT_TEST_LOGS, test_file.replace('.txt', ''))
         else:
-            self.outputdir = os.path.join(ROBOT_TEST_LOGS, project_name)
+            self.outputdir = os.path.join(setup.ROBOT_TEST_LOGS, project_name)
         
         self.common += ["--outputdir", self.outputdir]
-        LOGIT.info(f"--outputdir     {self.outputdir}")
+        logger.info(f"--outputdir     {self.outputdir}")
 
     def add_variables(self):
         """ Add env variables from config file. """
-        for k, v in get_config().ENV_VARS.items(): 
+        for k, v in setup.get_config().ENV_VARS.items(): 
             self.common += ["--variable", f"{k}:{v}"]
-            LOGIT.info(f'--variable      {k}:{v}')
+            logger.info(f'--variable      {k}:{v}')
 
     def add_variable_files(self):
         """ Global variables hold the variables taken from the Treadstone.json file 
             App requires env_vars.py, so it will always be included. """
-        envvars = os.path.join(LAUNCH_DIR, "Mods", "Vars", "env_vars.py")
+        envvars = os.path.join(setup.LAUNCH_DIR, "Mods", "Vars", "env_vars.py")
         self.common += ["--variablefile", envvars]
-        for vf in get_config().VARIABLE_FILES:
+        for vf in setup.get_config().VARIABLE_FILES:
             self.common += ["--variablefile", vf]
-            LOGIT.info(f'--variablefile  {vf}')
+            logger.info(f'--variablefile  {vf}')
     
     def add_include_tags(self):
         """ Global variable holds all the include tags taken from the Treadstone.json file """
-        for tag in get_config().INCLUDE:
+        for tag in setup.get_config().INCLUDE:
             self.common += ["--include", tag]
-            LOGIT.info(f'--include       {tag}')
+            logger.info(f'--include       {tag}')
 
     def add_exclude_tags(self):
         """ Global variable holds all the exclude tags taken from the Treadstone.json file """
-        for tag in get_config().EXCLUDE:
+        for tag in setup.get_config().EXCLUDE:
             self.common += ["--exclude", tag]
-            LOGIT.info(f'--exclude       {tag}')
+            logger.info(f'--exclude       {tag}')
 
     def add_listeners(self):
         """ Add listener path locations from config file. 
         Splunk listener: "/Users/gav/Repos/TestRepos/shared-test/tools/rf_listener/10.0/tcListener_url.py:bt:buildidtest:test_output_dir:test_outer_suite:subdir_test", 
         """
-        for l in get_config().LISTENERS:
+        for l in setup.get_config().LISTENERS:
             # self.common += ['--listener', '/Users/gav/Repos/TestRepos/shared-test/tools/rf_listener/10.0/tcListener_url.py']
             self.common += ['--listener', l]
-            LOGIT.info(f'--listener      {l}')
+            logger.info(f'--listener      {l}')
 
     def add_python_paths(self):
         """ Add any paths from the config file to --pythonpath args"""
-        for pth in get_config().PYTHONPATH:
+        for pth in setup.get_config().PYTHONPATH:
             self.common += ["--pythonpath", pth]
-            LOGIT.info(f'--pythonpath    {pth}')
+            logger.info(f'--pythonpath    {pth}')
 
     def add_test_case(self, test_case):
         """ If user selects a test case, append to common. """
         if test_case is not None:
             self.common += ['--test', test_case]
-            LOGIT.info(f"--test          {test_case}")
+            logger.info(f"--test          {test_case}")
 
     def add_proj_dir(self, project_dir=None, test_file=None):
         """ Add any other args passed in by the user, then append the test file or test dir as the last arg. """             
@@ -83,7 +88,7 @@ class TestLauncher:
             test case, and finally the project dir or test suite. """
 
         starttime = time()
-        LOGIT.info("-----------> Launching Test <-----------")
+        logger.info("-----------> Launching Test <-----------")
 
         self.common = [
             '--log', 'a_testlog.html', 
@@ -106,19 +111,19 @@ class TestLauncher:
         self.add_test_case(test_case)
         self.add_proj_dir(project_directory, test_file)
 
-        LOGIT.debug(f"{self.common}".format(str(self.common)))
+        logger.debug(f"{self.common}".format(str(self.common)))
 
         test_result = run_cli(self.common, exit=False)
-        LOGIT.info(f"-----------> Test Result: {test_result} <-----------  Time Taken: {time()-starttime:0.3f} secs")
+        logger.info(f"-----------> Test Result: {test_result} <-----------  Time Taken: {time()-starttime:0.3f} secs")
 
 def launch_app():
     TL = TestLauncher()
 
-    _PROFILE_GEN = switch_profile_gen()
+    _PROFILE_GEN = setup.switch_profile_gen()
     default_profile_name, _ = _PROFILE_GEN.__next__()
 
 
-    menu = TestMenu(default_profile_name)
+    menu = top_menu.TestMenu(default_profile_name)
     
     running = True 
 
@@ -132,7 +137,7 @@ def launch_app():
 
                 elif test_reqs == 'Switch Profile':
                     profile_name, _ = _PROFILE_GEN.__next__()
-                    menu = TestMenu(profile_name)
+                    menu = top_menu.TestMenu(profile_name)
 
                 else: 
                     TL.launch_test(*test_reqs)

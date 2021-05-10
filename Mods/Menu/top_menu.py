@@ -1,41 +1,40 @@
-from Mods.AppGlobals.setup import LOGIT, get_config, APP_NAME, APP_VER, CONFIG_DIR   # Has to be first import!
-from Mods.AppGlobals import app_globals_funcs as GF
+from Mods import setup 
+from Mods import app_funcs
 from os import path, listdir  
-from time import sleep 
 
-_START_MENU = None
-    
+import logging
+logger = logging.getLogger(__name__)
+logger.debug('Init top_menu.py')
 
+  
 class TestMenu():
     def __init__(self, profile_name):
         self.profile = profile_name[:-5]
-        self.project_locations = GF.get_project_locations(profile_name)     # 
+        self.project_locations = app_funcs.get_project_locations(profile_name)     # 
         self.where_we_are = 'PROJECTS'                          # Can be PROJECTS, TEST_SUITES or TEST_CASES
         self.project, self.test_suite, self.test_case = None, None, None 
         self.display_options = self.project_locations 
         self.test_just_ran = False
+        self.dont_show_menu = False 
 
     def run(self):
-        """ Stays in this while loop until a testcase / test suite // test folder is selected. 
-            Also exits if switching profile. 
-        """ 
-        
+        """ Stays in this while loop until a testcase / test suite // test folder is selected. """ 
         self.test_case = None           # After test is run, test_case gets reset. 
         self.test_just_ran = True       # Reset after test run.  Stops the clear screen.
 
         while True:
             if not self.project_locations:
-                print()
-                print(f"   Profile '{self.profile}'' has no test cases at the TEST_LOCATIONS provided!!!")
+                logger.info(f"   Profile '{self.profile}'' has no test cases at the TEST_LOCATIONS provided!!!")
                 return 'Switch Profile'
 
-            if get_config().CHOICES:
-                choice = str(get_config().CHOICES.pop(0))
+            if setup.get_config().CHOICES:
+                choice = str(setup.get_config().CHOICES.pop(0))
                 if choice in ['Q', 'q']:
                     break
 
                 elif choice in ['p', 'P']:
-                    return "Switch Profile" 
+                    self.dont_show_menu = True 
+                    return "Switch Profile"  # Also exits if switching profile. 
 
                 else:
                     if self.parse_cmd(choice):
@@ -47,9 +46,11 @@ class TestMenu():
                     return proj_name, proj_dir, self.test_suite, self.test_case             
 
             else:
-                self.display_contents()
+                if self.dont_show_menu:
+                    self.display_contents()
                 self.test_just_ran = False
                 self.get_user_choices()
+                self.dont_show_menu = False 
         
         return False                                       # Only reaches here when q is pressed. 
 
@@ -87,17 +88,22 @@ class TestMenu():
             return True
 
         elif cmd == '#':
-            GF.generate_libdocs() 
+            app_funcs.generate_libdocs() 
             self.test_just_ran = True
             return True 
         
         elif cmd == 'profile':
-            GF.display_profile()
+            app_funcs.display_profile()
             self.test_just_ran = True
             return True 
 
+        elif cmd == 'vars':
+            app_funcs.display_env_vars()
+            self.test_just_ran = True 
+            return True 
+
         else:
-            LOGIT.debug('{}'.format(cmd))
+            logger.debug('{}'.format(cmd))
 
         return False 
 
@@ -106,13 +112,13 @@ class TestMenu():
         self.where_we_are = "TEST_SUITES"
         self.project = usr_choice  
         loc = self.project_locations[self.project]["LOCATION"]
-        self.display_options = sorted([f for f in listdir(loc) if GF.check_if_test_file(path.join(loc, f))])       
+        self.display_options = sorted([f for f in listdir(loc) if app_funcs.check_if_test_file(path.join(loc, f))])       
 
     def is_test_suite(self, usr_choice):
         """ Set where_we_are, set the test suite & set the display options. """
         self.where_we_are = "TEST_CASES"
         self.test_suite = self.display_options[usr_choice - 1]
-        self.display_options = GF.get_test_cases(path.join(self.project_locations[self.project]["LOCATION"], self.test_suite))
+        self.display_options = app_funcs.get_test_cases(path.join(self.project_locations[self.project]["LOCATION"], self.test_suite))
         
     def is_test_case(self, usr_choice):
         """ Set Test Case """
@@ -123,7 +129,7 @@ class TestMenu():
         choice = input(f'   {self.profile} > ')
         if choice:
             for ch in choice.split(' '):
-                get_config().CHOICES.append(ch)
+                setup.get_config().CHOICES.append(ch)
 
     def move_back(self):     
         """ Moves back in the menu and sets the variables for new location. """
@@ -136,7 +142,7 @@ class TestMenu():
             self.test_suite = None
             self.where_we_are = "TEST_SUITES"
             loc = self.project_locations[self.project]["LOCATION"]
-            self.display_options = sorted([f for f in listdir(loc) if GF.check_if_test_file(path.join(loc, f))]) 
+            self.display_options = sorted([f for f in listdir(loc) if app_funcs.check_if_test_file(path.join(loc, f))]) 
                        
         else:   # == "PROJECTS"
             pass 
@@ -146,10 +152,10 @@ class TestMenu():
         if not self.test_just_ran:
             print("\033[H\033[J")      
         
-        header_len = 100
+        header_len = 90
 
         if self.where_we_are == "PROJECTS":
-            header = "   {} {}".format(APP_NAME, APP_VER)
+            header = "   {} {}".format(setup.APP_NAME, setup.APP_VER)
             offset = header_len - len(header) - len(self.where_we_are)
             header = "{}{}{}".format(header, offset*' ', self.where_we_are)
 
@@ -189,27 +195,3 @@ class TestMenu():
             for n, each in enumerate(self.display_options):
                 print("   {}. {}".format(n+1, each))
         print
-
-# def start_menu():
-#     global _START_MENU
-
-#     if _START_MENU is None:
-#         _START_MENU = TestMenu()
-
-#     return _START_MENU.run()
-
-# def menu_setup(profile_name):
-#     global _START_MENU
-#     _START_MENU = TestMenu(profile_name)
-    
-#     # 
-#     if _START_MENU.project_locations:
-#         return _START_MENU.run
-#     else:
-#         print('\n\n-----------> NO TEST CASES FOUND!! <-----------\n')
-#         print(f'Check the TEST_LOCATIONS are correct in the config file at : {CONFIG_DIR}\n')
-#         for _, v in get_config().TEST_LOCATIONS.items():
-#             for locs in v:
-#                 print(f' ->  {locs}')
-#         print() 
-#         return False 

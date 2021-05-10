@@ -1,4 +1,4 @@
-from Mods.Bot.launcher import launch_app
+from Mods import launcher
 
 if __name__ == "__main__":
-    launch_app()
+    launcher.launch_app()

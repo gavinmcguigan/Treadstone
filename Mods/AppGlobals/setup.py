@@ -1,4 +1,4 @@
-from logging.handlers import RotatingFileHandler
+# from logging.handlers import RotatingFileHandler
 from platform import uname
 from collections import deque
 import logging 
@@ -7,6 +7,9 @@ import sys
 from pathlib import Path 
 import json 
 from types import SimpleNamespace
+
+logger = logging.getLogger(__name__)
+logger.debug('Init setup.py')
 
 p = Path(os.path.dirname(os.path.realpath(__file__)))
 LAUNCH_DIR = p.parent.parent
@@ -118,44 +121,18 @@ def create_dirs():
                 os.mkdir(directory)
             except OSError:
                 pass
-class TreadstoneFileHandler(RotatingFileHandler):
-    def __init__(self, *args, **kwargs):
-        RotatingFileHandler.__init__(self, *args, **kwargs)
-        fs = "%(name)s  %(asctime)s.%(msecs)03d %(levelname)-5s >  %(message)s"
-        formatter = logging.Formatter(fs)
-        formatter.datefmt = '%H:%M:%S'
-        self.setFormatter(formatter)
-        self.setLevel(logging.DEBUG)
 
-    def emit(self, record):
-        try:
-            msg = self.format(record)
-            self.stream.write(msg)
-            self.stream.write('\n')
-            self.flush()
+# def check_for_profiles():
+#     global PROFILES
+#     PROFILES = {f: os.path.join(CONFIG_DIR, f) for f in os.listdir(CONFIG_DIR) if f.endswith('.json')}
 
-        except Exception:
-            self.handleError(record)
-
-def logger_setup():
-    global LOGIT 
-    LOGIT = logging.getLogger(APP_NAME.upper())
-    LOGIT.setLevel(logging.DEBUG)
-    handler = TreadstoneFileHandler(APP_LOG_FILE, mode='a', maxBytes=10000, backupCount=1, delay=0)
-    LOGIT.addHandler(handler)
-
-def check_for_profiles():
-    global PROFILES
-    PROFILES = {f: os.path.join(CONFIG_DIR, f) for f in os.listdir(CONFIG_DIR) if f.endswith('.json')}
-
-    # Check profiles have defaults. 
-    for profile, profile_path in PROFILES.items():
-        json_data = read_json_from_config_file(profile_path)
-        modified_json = check_json_data(json_data)
-        write_actual_config_to_file(profile_path, modified_json)
+#     # Check profiles have defaults. 
+#     for profile, profile_path in PROFILES.items():
+#         json_data = read_json_from_config_file(profile_path)
+#         modified_json = check_json_data(json_data)
+#         write_actual_config_to_file(profile_path, modified_json)
 
 def check_for_config_file():
-    global CONFIG 
     # default CONFIG_FILE has to exist, check if exists, if not create it. 
     if os.path.isfile(CONFIG_FILE):
         json_data = read_json_from_config_file(CONFIG_FILE)
@@ -171,7 +148,7 @@ def read_json_from_config_file(which_file):
             data = json.load(f)
     
     except IOError as ioe:
-        LOGIT.error(f"Failed to read from config file: {ioe}")
+        logger.error(f"Failed to read from config file: {ioe}")
         return {}
     except json.decoder.JSONDecodeError:
         return {}
@@ -202,29 +179,35 @@ def check_json_data(read_in_config):
     return read_in_config 
 
 def write_actual_config_to_file(which_file, data):
-    # Write config to file in every case? Exists but no chaneg, Changed, Doesn't Exist. 
-    # CONFIG = SimpleNamespace(**data)
-
     try: 
         with open(which_file, 'w+') as f:
             json.dump(data, f, indent=4, sort_keys=True)
     except IOError as ioe:
-        LOGIT.error(f"Failed to write to config file: {ioe}")
+        logger.error(f"Failed to write to config file: {ioe}")
 
 def switch_profile_gen():
     global CONFIG
-    LOGIT.info(f'{len(PROFILES)} Profiles Initiated')
+
+    profiles = {f: os.path.join(CONFIG_DIR, f) for f in os.listdir(CONFIG_DIR) if f.endswith('.json')}
+
+    # Check profiles have defaults. 
+    for _, profile_path in profiles.items():
+        json_data = read_json_from_config_file(profile_path)
+        modified_json = check_json_data(json_data)
+        write_actual_config_to_file(profile_path, modified_json)
+
+    logger.info(f'{len(profiles)} Profiles Found')
+
     while True:
-        for profile, profile_path in PROFILES.items():
-            LOGIT.info(f"{profile}: {profile_path}")
+        for profile, profile_path in profiles.items():
+            # logger.info(f"Profile selected: {profile}")
+            # logger.info(f"{80*'-'}")
             json_data = read_json_from_config_file(profile_path)
             modified_json = check_json_data(json_data)
             write_actual_config_to_file(profile_path, modified_json)
             CONFIG = SimpleNamespace(**modified_json)
-            LOGIT.debug("")
-            LOGIT.debug(f"{80*'-'}")
-            for envvar, value in CONFIG.ENV_VARS.items():
-                LOGIT.debug(f" {envvar}:  {value}")
+            # for envvar, value in CONFIG.ENV_VARS.items():
+            #     logger.debug(f"{envvar}:  {value}")
             yield profile, profile_path 
 
 def get_config():
@@ -233,24 +216,4 @@ def get_config():
 
 def config_init():
     create_dirs()
-    logger_setup()
-
-    # Check default profile/config exists
-    check_for_config_file()
-    
-    # Get profiles and add to profile dict
-    check_for_profiles()
-
-    LOGIT.info(f"")
-    desired_length = 60
-    gap = desired_length - len(APP_NAME) - len(APP_VER)
-    LOGIT.info(f"{APP_NAME}{gap*' '}{APP_VER}")
-    LOGIT.info(f"{desired_length*'-'}")
-
-config_init()
-
-
-"""
-
-
-"""
+    check_for_config_file()     # Check default profile/config exists
