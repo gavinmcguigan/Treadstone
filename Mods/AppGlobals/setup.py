@@ -27,7 +27,9 @@ TEST_REPOS = [
     'session-test',
     'shared-web-test',
     'slso-suite-test', 
+    'Treadstone'
     ]
+
 
 # -------------------------------------------------------------------------------------- Directories
 SANDBOX_DIR = os.path.join(LAUNCH_DIR, 'Sandbox')
@@ -38,7 +40,7 @@ LIBRARIES_DIR = os.path.join(SANDBOX_DIR, "Libs")
 VARFILE_DIR = os.path.join(SANDBOX_DIR, "VariableFiles")
 CONFIG_DIR = os.path.join(SANDBOX_DIR, "Config")
 SCRIPT_DIR = os.path.join(SANDBOX_DIR, "Scripts")
-RESOURCE_DIR = os.path.join(SANDBOX_DIR, "Resources")
+RESOURCE_DIR = os.path.join(SANDBOX_DIR, "Keywords")
 LOG_DIR = os.path.join(SANDBOX_DIR, 'Logs')
 ROBOT_TEST_LOGS = os.path.join(LOG_DIR, "RobotTestLogs")
 LIB_DOC_DIR = os.path.join(SANDBOX_DIR, "LibDocs")
@@ -59,6 +61,11 @@ def get_os_run():
 
 PROFILES = []
 
+
+test_locations = {k.title(): [os.path.join(REPO_DIR, k, "tests")] for k in TEST_REPOS}
+# for k, v in test_locations.items():
+#     print(k, v)
+
 DEFAULTS = { 
     "ENV_VARS": {
         "BRANCH": "develop",
@@ -75,16 +82,7 @@ DEFAULTS = {
     "INCLUDE": [],
     "LISTENERS": [],
     "PYTHONPATH": [LIBRARIES_DIR, RESOURCE_DIR],
-    "RESOURCE_DIRS": {
-        "Treadstone": [RESOURCE_DIR],
-        "Content-Portal-Test": [os.path.join(REPO_DIR, "content-portal-test", "keywords")],
-        "Identity-Test": [os.path.join(REPO_DIR, "identity-test", "keywords")],
-        "Session-Test": [os.path.join(REPO_DIR, "session-test", "keywords")],
-        "Shared-Desktop-Test": [os.path.join(REPO_DIR, "shared-desktop-test", "keywords")],
-        "Shared-Web-Test": [os.path.join(REPO_DIR, "shared-web-test", "keywords")],
-        "SLSO-Suite-Test": [os.path.join(REPO_DIR, "slso-suite-test", "keywords")],
-        "Shared-Test": [os.path.join(REPO_DIR, "shared-test", "keywords")],
-    },
+    "RESOURCE_DIRS": {k.title(): [os.path.join(REPO_DIR, k, "keywords")] for k in TEST_REPOS},
     "CHOICES": [],
     "TEST_LOCATIONS": {
         APP_NAME: [TESTS_DIR],
@@ -167,7 +165,7 @@ def check_json_data(read_in_config):
         value = read_in_config.get(k, None)
 
         # If value is not a dict, make it the default dict. 
-        if k in ["TEST_LOCATIONS", "ENV_VARS"]:
+        if k in ["TEST_LOCATIONS", "ENV_VARS", "RESOURCE_DIRS"]:
             if not isinstance(value, dict):
                 read_in_config[k] = v
 

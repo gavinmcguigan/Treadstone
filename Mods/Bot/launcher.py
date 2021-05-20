@@ -1,6 +1,6 @@
 # from Mods.AppGlobals.setup import get_config, ROBOT_TEST_LOGS, LAUNCH_DIR, switch_profile_gen     # Has to be first import!
-from Mods import setup
-from Mods import top_menu
+from Treadstone.Mods import setup
+from Treadstone.Mods import top_menu
 from robot import run_cli 
 from time import time 
 import sys, os
@@ -118,13 +118,10 @@ class TestLauncher:
 
 def launch_app():
     TL = TestLauncher()
-
     _PROFILE_GEN = setup.switch_profile_gen()
     default_profile_name, _ = _PROFILE_GEN.__next__()
 
-
     menu = top_menu.TestMenu(default_profile_name)
-    
     running = True 
 
     while running:

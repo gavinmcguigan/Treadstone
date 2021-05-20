@@ -1,5 +1,5 @@
-from Mods import setup 
-from Mods import app_funcs
+from Treadstone.Mods import setup 
+from Treadstone.Mods import app_funcs
 from os import path, listdir  
 
 import logging
@@ -46,8 +46,8 @@ class TestMenu():
                     return proj_name, proj_dir, self.test_suite, self.test_case             
 
             else:
-                if self.dont_show_menu:
-                    self.display_contents()
+                # if self.dont_show_menu:
+                self.display_contents()
                 self.test_just_ran = False
                 self.get_user_choices()
                 self.dont_show_menu = False 

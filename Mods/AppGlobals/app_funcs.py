@@ -3,8 +3,8 @@ from robot.errors import DataError
 from robot.api import TestData, ResourceFile
 from robot.libdoc import libdoc 
 import os 
-import pprint 
-from Mods import setup 
+import pprint
+from Treadstone.Mods import setup
 import logging
 
 logger = logging.getLogger(__name__)
@@ -80,7 +80,9 @@ def check_if_test_file(file_name: str) -> int:
     return len(get_test_cases(file_name=file_name))       
 
 def generate_libdocs():
+    """ loops through all the files in the directory passed in, looking for keyword files. """
     resource_dirs = setup.get_config().RESOURCE_DIRS
+    
     for name, direct in resource_dirs.items():
         d = direct[0]
         
@@ -88,7 +90,14 @@ def generate_libdocs():
 
         all_kws = '*** Keywords ***'
         counter = 0
-        for f in os.listdir(d):
+
+        try:
+            listed_dirs = os.listdir(d)
+        except FileNotFoundError:
+            logger.error(f"{d} not found!")
+            continue 
+
+        for f in listed_dirs:
             resource_path = os.path.join(d, f)
 
             kws = check_for_keywords(resource_path)
@@ -108,29 +117,32 @@ def generate_libdocs():
                     # print(f"x {x}   {whole_file[x + 16: x + 40]}")
                     # print(f"y {y}   {whole_file[y: y + 20]}")
 
-
         print(f"Keywords found: {counter}")
 
+        # If we found keywords in the files within this directory, do this...
         if counter:
-            
-            
             write_here = os.path.join(setup.SANDBOX_DIR, 'allkws.txt')
 
             with open(write_here, 'w') as filetowrite:
                 filetowrite.writelines(all_kws)
 
-
             libdoc(
                 library_or_resource=write_here, 
                 outfile=os.path.join(setup.LIB_DOC_DIR, f'{name}.html'), 
                 name=f'{name}')
+
+        else:
+            libdoc(
+                library_or_resource=direct[0], 
+                outfile=os.path.join(setup.LIB_DOC_DIR, f'{name}.html'), 
+                name=f'{name}')
+
                 
 
     return 
 
 def display_profile():
     print()
-    
     config = setup.get_config()
     pp.pprint(vars(config))
 
@@ -138,5 +150,4 @@ def display_profile():
 def display_env_vars():
     print()
     config = setup.get_config()
-
     pp.pprint(vars(config).get('ENV_VARS'))
