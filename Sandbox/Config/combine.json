@@ -1,0 +1,86 @@
+{
+    "CHOICES": [],
+    "ENV_VARS": {
+        "BRANCH": "develop",
+        "BROWSER": "gc",
+        "FORCE_ENABLE_APPLITOOLS": false,
+        "MACHINE_NAME": "SMART-GAV",
+        "MSBRANCH": "learning",
+        "OSRUN": "win",
+        "REGION": "global",
+        "SIGNINMS": false,
+        "WEBENV": "dev"
+    },
+    "EXCLUDE": [],
+    "INCLUDE": [],
+    "LISTENERS": [],
+    "PYTHONPATH": [
+        "C:\\Users\\Gavin\\SMART\\TestRepos\\Treadstone\\Sandbox\\Libs",
+        "C:\\Users\\Gavin\\SMART\\TestRepos\\Treadstone\\Sandbox\\Keywords"
+    ],
+    "RESOURCE_DIRS": {
+        "Content-Portal-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\content-portal-test\\keywords"
+        ],
+        "Identity-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\identity-test\\keywords"
+        ],
+        "Lab-Static-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\lab-static-test\\keywords"
+        ],
+        "Lab-Web-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\lab-web-test\\keywords"
+        ],
+        "Labc-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\labc-test\\keywords"
+        ],
+        "Notebook-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\notebook-test\\keywords"
+        ],
+        "Session-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\session-test\\keywords"
+        ],
+        "Shared-Web-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\shared-web-test\\keywords"
+        ],
+        "Slso-Suite-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\slso-suite-test\\keywords"
+        ],
+        "Treadstone": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\Treadstone\\keywords"
+        ]
+    },
+    "TEST_LOCATIONS": {
+        "Content-Portal-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\content-portal-test\\tests"
+        ],
+        "Identity-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\identity-test\\tests"
+        ],
+        "Lab-Static-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\lab-static-test\\tests"
+        ],
+        "Labc-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\labc-test\\tests"
+        ],
+        "Notebook-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\notebook-test\\tests"
+        ],
+        "SLSO-Test-Suite": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\slso-suite-test\\tests"
+        ],
+        "Session-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\session-test\\tests"
+        ],
+        "Shared-Desktop-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\shared-desktop-test\\tests"
+        ],
+        "Shared-Web-Test": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\shared-web-test\\tests\\training"
+        ],
+        "Treadstone": [
+            "C:\\Users\\Gavin\\SMART\\TestRepos\\Treadstone\\Sandbox\\Tests"
+        ]
+    },
+    "VARIABLE_FILES": []
+}

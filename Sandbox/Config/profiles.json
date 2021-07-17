@@ -1,0 +1,35 @@
+{
+    "CHOICES": [
+        1,
+        9
+    ],
+    "ENV_VARS": {
+        "BRANCH": "develop",
+        "BROWSER": "gc",
+        "MACHINE_NAME": "Gavs-MacBook-Pro.local",
+        "MSBRANCH": "learning",
+        "OSRUN": "mac",
+        "REGION": "global",
+        "SIGNINMS": false,
+        "WEBENV": "dev"
+    },
+    "EXCLUDE": [],
+    "INCLUDE": [],
+    "LISTENERS": [],
+    "PYTHONPATH": [
+        "/Users/gav/Repos/TestRepos/shared-web-test/libs",
+        "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/Libs",
+        "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/Keywords"
+    ],
+    "RESOURCE_DIRS": {
+        "Treadstone": [
+            "/Users/gav/Repos/TestRepos/Treadstone/keywords"
+        ]
+    },
+    "TEST_LOCATIONS": {
+        "Treadstone": [
+            "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/Tests"
+        ]
+    },
+    "VARIABLE_FILES": []
+}

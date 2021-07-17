@@ -1,0 +1,65 @@
+{
+    "CHOICES": [],
+    "ENV_VARS": {
+        "BRANCH": "master",
+        "BROWSER": "gc",
+        "FORCE_ENABLE_APPLITOOLS": false,
+        "MACHINE_NAME": "Gavs-MacBook-Pro.local",
+        "MSBRANCH": "learning",
+        "OSRUN": "mac",
+        "REGION": "global",
+        "SIGNINMS": false,
+        "WEBENV": "prod"
+    },
+    "EXCLUDE": [],
+    "INCLUDE": [],
+    "LISTENERS": [],
+    "PYTHONPATH": [
+        "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/Libs",
+        "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/Resources"
+    ],
+    "RESOURCE_DIRS": {
+        "Content-Portal-Test": [
+            "/Users/gav/Repos/TestRepos/content-portal-test/keywords"
+        ],
+        "Identity-Test": [
+            "/Users/gav/Repos/TestRepos/identity-test/keywords"
+        ],
+        "Lab-Static-Test": [
+            "/Users/gav/Repos/TestRepos/lab-static-test/keywords"
+        ],
+        "Lab-Web-Test": [
+            "/Users/gav/Repos/TestRepos/lab-web-test/keywords"
+        ],
+        "Labc-Test": [
+            "/Users/gav/Repos/TestRepos/labc-test/keywords"
+        ],
+        "Notebook-Test": [
+            "/Users/gav/Repos/TestRepos/notebook-test/keywords"
+        ],
+        "Session-Test": [
+            "/Users/gav/Repos/TestRepos/session-test/keywords"
+        ],
+        "Shared-Web-Test": [
+            "/Users/gav/Repos/TestRepos/shared-web-test/keywords"
+        ],
+        "Slso-Suite-Test": [
+            "/Users/gav/Repos/TestRepos/slso-suite-test/keywords"
+        ],
+        "Treadstone": [
+            "/Users/gav/Repos/TestRepos/Treadstone/keywords"
+        ]
+    },
+    "TEST_LOCATIONS": {
+        "SLSO-Test-Suite": [
+            "/Users/gav/Repos/TestRepos/slso-suite-test/tests"
+        ],
+        "Shared-Web-Test": [
+            "/Users/gav/Repos/TestRepos/shared-web-test/tests/training"
+        ],
+        "Treadstone": [
+            "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/Tests"
+        ]
+    },
+    "VARIABLE_FILES": []
+}
