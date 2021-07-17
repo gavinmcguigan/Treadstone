@@ -1,0 +1,72 @@
+*** Settings ***
+Resource        ${CURDIR}/../../../identity-test/keywords/__include_all_api.txt
+Resource        ../../shared-web-test/keywords/canvas/Cleanup
+
+
+*** Keywords ***
+Cleanup ID, Stripe, Salesforce
+    [Arguments]     ${account}
+    Cleanup ID                                  ${account}
+    Stripe Delete Customers On All Accounts     ${account} 
+    Cleanup Salesforce                          ${account}
+
+Get ID, Stripe, Salesforce
+    [Arguments]     ${account}
+    
+    ${result}=      getB2BSubscriptions                         ${account}
+    Log Many        ---------- Subscription IDs ----------      @{result}[2]
+
+    
+    Stripe Get Customers On All Accounts        ${account}
+    Cleanup Salesforce                          ${account}      ${False} 
+
+
+#  ---------------------------------------------------------------------------- ID
+Cleanup ID 
+    [Documentation]     Connect to ID backend and remove data for account.
+    [Arguments]         ${email_account}
+    ${result}=          getB2BSubscriptions             ${email_account}
+    Log Many            ---------- Subscription IDs ----------    @{result}[2]
+    Run Keyword If      ${result}[0]            Delete B2C Subscription and All of its Activations      @{result}[1]     @{result}[2]     
+    ...     ELSE        Log     No subscriptions found. 
+
+GetB2BSubscriptions
+    [Arguments]         ${user_email}
+    ${accessToken}=     Application Access Token For Scopes With Google Login    ${supportadmin_email}    ${supportadmin_password}    ${env}    ${account crud} entitlement.write entitlement&force_refresh=true    ${TRUE}  
+    ${user_id}=         Get User Id From Email API      ${user_email}       ${accessToken}
+    ${resp}=            Get Subscriptions For An Account Id    ${user_id}   {"email": "${user_email}", "idps": [google]}    ${EMPTY}    ${accessToken}    ${OK}   
+    ${listOfB2C}=       FilterOutB2BSubscriptions       ${resp.json()}      ${accessToken}
+    ${subs_found}=      Run Keyword And Return Status   Should Not Be Empty     ${listOfB2C}
+    [return]            ${subs_found}       ${accessToken}      ${listOfB2C}
+
+FilterOutB2BSubscriptions
+    [Arguments]         ${listOfSubscriptions}      ${accessToken}
+    :FOR                ${subscriptionId}    IN     @{listOfSubscriptions} 
+    \                   ${type}=    getSubscriptionType    ${subscriptionId}       ${accessToken}
+    \                   Run Keyword If   '${type}' != 'B2CFREE' and '${type}' != 'B2CBASE'     Remove values from List    ${listOfSubscriptions}    ${subscriptionId}
+    [Return]            ${listOfSubscriptions}
+
+GetSubscriptionType
+    [Arguments]         ${subscriptionId}    ${accessToken}     
+    [Documentation]     Type returned will be: SLS, TRIAL, B2CFREE, or B2CBASE (if subscription is found in SF). If subscription is not found, type will be set to NotFound or Unknown.
+    ${resp}=            Get SLS Subscription    ${subscriptionId}    ${accessToken}
+    ${type}=            RunKeyword If    ${resp.status_code}==${OK}    Get From Dictionary    ${resp.json()}    type    ELSE IF    ${resp.status_code}==${NOT_FOUND}    Set Variable    NotFound   ELSE    Set Variable    Unknown
+    [Return]            ${type}   
+
+Delete B2C Subscription and All of its Activations    
+    [Documentation]     Need to test this with a B2C subscription ;)
+    [Arguments]         ${accessToken}      ${listOfSubscriptions}
+    :FOR                ${subscriptionId}    IN    @{listOfSubscriptions} 
+    \                   ${resp}=    Delete SLS Subscription    ${subscriptionId}    ${accessToken}
+    \                   Run Keyword If    ${resp.status_code} != ${NO_CONTENT}    Log    Failed to delete this B2C Subscription: ${subscriptionId}!    WARN
+    \                   Log    ${resp.content}
+
+#  ---------------------------------------------------------------------------- Salesforce 
+Cleanup Salesforce 
+    [Arguments]                         ${email_account}    ${really_delete}=False
+    ${accessToken}=                     Application Access Token For Scopes With Google Login    ${supportadmin_email}    ${supportadmin_password}    ${env}    ${account crud} entitlement.write entitlement&force_refresh=true    ${TRUE}  
+    Set Suite Variable                  ${accessToken}
+    ${test_account_id}=                 Get User Id From Email API    ${email_account}    ${accessToken}
+    Salesforce Cleanup For User Id      ${test_account_id}      ${really_delete} 
+
+
