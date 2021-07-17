@@ -1,0 +1,75 @@
+2021-06-13 17:03:13,193 DEBUG app MainThread : STARTING!!!!
+2021-06-13 17:03:13,198 WARNING werkzeug MainThread :  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2021-06-13 17:03:13,198 INFO werkzeug MainThread :  * Running on http://192.168.0.26:5002/ (Press CTRL+C to quit)
+2021-06-13 17:03:13,199 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:03:13,525 DEBUG app MainThread : STARTING!!!!
+2021-06-13 17:03:13,529 WARNING werkzeug MainThread :  * Debugger is active!
+2021-06-13 17:03:13,534 INFO werkzeug MainThread :  * Debugger PIN: 679-443-345
+2021-06-13 17:03:54,122 INFO werkzeug MainThread :  * Detected change in '/Users/gav/Repos/TestRepos/Treadstone/Sandbox/ChromeProfiles/app.py', reloading
+2021-06-13 17:03:54,168 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:04:36,696 DEBUG app MainThread : STARTING!!!!
+2021-06-13 17:04:36,699 WARNING werkzeug MainThread :  * Debugger is active!
+2021-06-13 17:04:36,704 INFO werkzeug MainThread :  * Debugger PIN: 679-443-345
+2021-06-13 17:04:49,323 DEBUG app MainThread : STARTING!!!!
+2021-06-13 17:04:49,328 WARNING werkzeug MainThread :  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2021-06-13 17:04:49,328 INFO werkzeug MainThread :  * Running on http://192.168.0.26:5002/ (Press CTRL+C to quit)
+2021-06-13 17:04:49,328 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:04:49,642 DEBUG app MainThread : STARTING!!!!
+2021-06-13 17:04:49,646 WARNING werkzeug MainThread :  * Debugger is active!
+2021-06-13 17:04:49,650 INFO werkzeug MainThread :  * Debugger PIN: 679-443-345
+2021-06-13 17:05:02,840 INFO werkzeug MainThread :  * Detected change in '/Users/gav/Repos/TestRepos/Treadstone/Sandbox/ChromeProfiles/app.py', reloading
+2021-06-13 17:05:02,888 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:05:03,225 WARNING werkzeug MainThread :  * Debugger is active!
+2021-06-13 17:05:03,229 INFO werkzeug MainThread :  * Debugger PIN: 679-443-345
+2021-06-13 17:11:51,867 INFO werkzeug MainThread :  * Detected change in '/Users/gav/Repos/TestRepos/Treadstone/Sandbox/ChromeProfiles/app.py', reloading
+2021-06-13 17:11:51,916 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:17:24,305 WARNING werkzeug MainThread :  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2021-06-13 17:17:24,305 INFO werkzeug MainThread :  * Running on http://192.168.0.26:5002/ (Press CTRL+C to quit)
+2021-06-13 17:17:24,305 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:17:24,630 WARNING werkzeug MainThread :  * Debugger is active!
+2021-06-13 17:17:24,635 INFO werkzeug MainThread :  * Debugger PIN: 679-443-345
+2021-06-13 17:18:01,840 WARNING werkzeug MainThread :  * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+2021-06-13 17:18:01,841 INFO werkzeug MainThread :  * Running on http://192.168.0.26:5002/ (Press CTRL+C to quit)
+2021-06-13 17:18:01,841 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:18:02,180 WARNING werkzeug MainThread :  * Debugger is active!
+2021-06-13 17:18:02,184 INFO werkzeug MainThread :  * Debugger PIN: 679-443-345
+2021-06-13 17:18:08,442 INFO werkzeug Thread-2 : 127.0.0.1 - - [13/Jun/2021 17:18:08] "GET /email/gavinmcguigan.student2@smartwizardschool.com?zip_file=gavinmcguiganstudent2_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1" 200 -
+2021-06-13 17:18:08,451 INFO werkzeug Thread-3 : 127.0.0.1 - - [13/Jun/2021 17:18:08] "[33mGET /profile?email=gavinmcguigan.student2%40smartwizardschool.com&zip_file=gavinmcguiganstudent2_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1[0m" 404 -
+2021-06-13 17:19:11,003 INFO werkzeug Thread-4 : 127.0.0.1 - - [13/Jun/2021 17:19:11] "[35m[1mPOST /profile?email=gavinmcguigan.student2%40smartwizardschool.com&zip_file=gavinmcguiganstudent2_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1[0m" 500 -
+2021-06-13 17:20:15,975 INFO werkzeug MainThread :  * Detected change in '/Users/gav/Repos/TestRepos/Treadstone/Sandbox/ChromeProfiles/app.py', reloading
+2021-06-13 17:20:16,030 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:21:19,277 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:29:57,466 INFO werkzeug MainThread :  * Restarting with stat
+2021-06-13 17:46:19,036 WARNING werkzeug MainThread :  * Debugger is active!
+2021-06-13 17:46:19,041 INFO werkzeug MainThread :  * Debugger PIN: 679-443-345
+2021-06-13 17:46:24,272 INFO werkzeug Thread-2 : 127.0.0.1 - - [13/Jun/2021 17:46:24] "GET /email/gavinmcguigan.teacher@smartwizardschool.com?zip_file=gavinmcguiganteacher_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1" 200 -
+2021-06-13 17:46:24,285 INFO werkzeug Thread-3 : 127.0.0.1 - - [13/Jun/2021 17:46:24] "GET /profile?email=gavinmcguigan.teacher%40smartwizardschool.com&zip_file=gavinmcguiganteacher_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1" 200 -
+2021-06-13 17:46:44,171 DEBUG app Thread-4 : Host: 127.0.0.1:5002
+User-Agent: Python-ChromeProfiles-Lib/2.15.1
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+
+2021-06-13 17:46:44,171 DEBUG app Thread-4 : saving to -> /Users/gav/Repos/TestRepos/Treadstone/Sandbox/ChromeProfiles/static/gavinmcguiganteacher_GavsMacBookProlocal.zip
+2021-06-13 17:46:44,346 INFO werkzeug Thread-4 : 127.0.0.1 - - [13/Jun/2021 17:46:44] "POST /profile?email=gavinmcguigan.teacher%40smartwizardschool.com&zip_file=gavinmcguiganteacher_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1" 200 -
+2021-06-13 17:46:55,501 INFO werkzeug MainThread :  * Detected change in '/Users/gav/Repos/TestRepos/Treadstone/Sandbox/ChromeProfiles/app.py', reloading
+2021-06-13 17:48:27,937 WARNING werkzeug MainThread :  * Debugger is active!
+2021-06-13 17:48:27,942 INFO werkzeug MainThread :  * Debugger PIN: 679-443-345
+2021-06-13 17:48:31,731 INFO werkzeug Thread-2 : 127.0.0.1 - - [13/Jun/2021 17:48:31] "GET /email/gavinmcguigan.teacher@smartwizardschool.com?zip_file=gavinmcguiganteacher_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1" 200 -
+2021-06-13 17:48:31,742 INFO werkzeug Thread-3 : 127.0.0.1 - - [13/Jun/2021 17:48:31] "GET /profile?email=gavinmcguigan.teacher%40smartwizardschool.com&zip_file=gavinmcguiganteacher_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1" 200 -
+2021-06-13 17:48:51,716 DEBUG app Thread-4 : Host: 127.0.0.1:5002
+User-Agent: Python-ChromeProfiles-Lib/2.15.1
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+
+2021-06-13 17:48:51,887 INFO werkzeug Thread-4 : 127.0.0.1 - - [13/Jun/2021 17:48:51] "POST /profile?email=gavinmcguigan.teacher%40smartwizardschool.com&zip_file=gavinmcguiganteacher_GavsMacBookProlocal.zip&machine_name=GavsMacBookProlocal HTTP/1.1" 200 -
+2021-06-13 17:53:55,495 INFO werkzeug MainThread :  * Detected change in '/Users/gav/Repos/TestRepos/Treadstone/Sandbox/ChromeProfiles/app.py', reloading

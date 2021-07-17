@@ -1,0 +1,103 @@
+{
+  "Emails": [
+    {
+      "account_email": "gavinmcguigan.student1@smartwizardschool.com",
+      "zip_filename": "gavinmcguiganstudent1_GavsMacBookProlocal.zip",
+      "machine_name": "GavsMacBookProlocal",
+      "created": "01/02/2021, 12:32:19",
+      "updated": "06/02/2021, 14:12:48",
+      "uploads": 24,
+      "downloads": 23
+    },
+    {
+      "account_email": "gavinmcguigan.teacher@smartwizardschool.com",
+      "zip_filename": "gavinmcguiganteacher_GavsMacBookProlocal.zip",
+      "machine_name": "GavsMacBookProlocal",
+      "created": "01/02/2021, 11:38:23",
+      "updated": "06/02/2021, 14:11:09",
+      "uploads": 68,
+      "downloads": 67
+    },
+    {
+      "account_email": "slso.purchase.ca@smartwizardschool.com",
+      "zip_filename": "slsopurchaseca_GavsMacBookProlocal.zip",
+      "machine_name": "GavsMacBookProlocal",
+      "created": "01/02/2021, 15:09:31",
+      "updated": "06/02/2021, 14:04:26",
+      "uploads": 61,
+      "downloads": 60
+    },
+    {
+      "account_email": "slso.purchase.uk@smartwizardschool.com",
+      "zip_filename": "slsopurchaseuk_GavsMacBookProlocal.zip",
+      "machine_name": "GavsMacBookProlocal",
+      "created": "01/02/2021, 17:12:32",
+      "updated": "06/02/2021, 14:05:58",
+      "uploads": 24,
+      "downloads": 23
+    },
+    {
+      "account_email": "slso.purchase.us@smartwizardschool.com",
+      "zip_filename": "slsopurchaseus_GavsMacBookProlocal.zip",
+      "machine_name": "GavsMacBookProlocal",
+      "created": "01/02/2021, 19:25:29",
+      "updated": "06/02/2021, 14:07:34",
+      "uploads": 33,
+      "downloads": 32
+    },
+    {
+      "account_email": "slso.purchase.aus@smartwizardschool.com",
+      "zip_filename": "slsopurchaseaus_GavsMacBookProlocal.zip",
+      "machine_name": "GavsMacBookProlocal",
+      "created": "01/02/2021, 17:48:33",
+      "updated": "06/02/2021, 14:09:14",
+      "uploads": 24,
+      "downloads": 23
+    },
+    {
+      "account_email": "slso.purchase.ca@smartwizardschool.com",
+      "zip_filename": "slsopurchaseca_DESKTOPKHPFVV9.zip",
+      "machine_name": "DESKTOPKHPFVV9",
+      "created": "01/02/2021, 18:24:56",
+      "updated": "06/02/2021, 13:45:12",
+      "uploads": 181,
+      "downloads": 180
+    },
+    {
+      "account_email": "slso.purchase.uk@smartwizardschool.com",
+      "zip_filename": "slsopurchaseuk_DESKTOPKHPFVV9.zip",
+      "machine_name": "DESKTOPKHPFVV9",
+      "created": "01/02/2021, 18:23:45",
+      "updated": "06/02/2021, 13:45:12",
+      "uploads": 23,
+      "downloads": 22
+    },
+    {
+      "account_email": "slso.purchase.us@smartwizardschool.com",
+      "zip_filename": "slsopurchaseus_DESKTOPKHPFVV9.zip",
+      "machine_name": "DESKTOPKHPFVV9",
+      "created": "01/02/2021, 19:56:23",
+      "updated": "06/02/2021, 13:45:12",
+      "uploads": 25,
+      "downloads": 24
+    },
+    {
+      "account_email": "slso.purchase.aus@smartwizardschool.com",
+      "zip_filename": "slsopurchaseaus_DESKTOPKHPFVV9.zip",
+      "machine_name": "DESKTOPKHPFVV9",
+      "created": "01/02/2021, 19:58:26",
+      "updated": "06/02/2021, 13:45:12",
+      "uploads": 25,
+      "downloads": 24
+    },
+    {
+      "account_email": "gavinmcguigan.student2@smartwizardschool.com",
+      "zip_filename": "gavinmcguiganstudent2_GavsMacBookProlocal.zip",
+      "machine_name": "GavsMacBookProlocal",
+      "created": "01/02/2021, 20:34:46",
+      "updated": "06/02/2021, 15:47:21",
+      "uploads": 1167,
+      "downloads": 1167
+    }
+  ]
+}
