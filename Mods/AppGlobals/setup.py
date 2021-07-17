@@ -14,7 +14,7 @@ logger.debug('Init setup.py')
 p = Path(os.path.dirname(os.path.realpath(__file__)))
 LAUNCH_DIR = p.parent.parent
 APP_NAME = "Treadstone" 
-APP_VER = "v1.01.000"
+APP_VER = "v1.02.000"
 
 LOGIT = None 
 TEST_REPOS = [
@@ -51,12 +51,7 @@ CONFIG_FILE = os.path.join(CONFIG_DIR, "{}.json".format(APP_NAME))
 APP_LOG_FILE = os.path.join(TREADSTONE_LOG, "{}.log".format(APP_NAME))
 
 def get_os_run():
-    op_sys = sys.platform 
-    if 'darwin' in op_sys:
-        op_sys = 'mac'
-    elif 'win' in op_sys:
-        op_sys = 'win'
-
+    op_sys = 'mac' if 'darwin' in sys.platform else 'win'
     return op_sys
 
 PROFILES = []
