@@ -2,7 +2,6 @@
 from robot.libraries.BuiltIn import BuiltIn
 from concurrent.futures import ThreadPoolExecutor
 from selenium.common.exceptions import NoSuchElementException
-from LumioLib.ChromeProfiles import open_browser_with_chrome_profile
 from selenium import webdriver
 import traceback, sys
 from robot.api import logger
@@ -68,5 +67,3 @@ def find_element_and_action(list_of_elements, email, password, class_code, lib_i
 
     raise NoSuchElementException(f'None of the elements expected were found.')
 
-
-def actioner(element, name, action)

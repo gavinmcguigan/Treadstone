@@ -1,30 +1,33 @@
 {
-    "CHOICES": [],
+    "CHOICES": [
+        6,
+        2
+    ],
     "ENV_VARS": {
         "BRANCH": "develop",
         "BROWSER": "gc",
+        "EMAIL": "gavinmcguigan.teacher@smartwizardschool.com",
         "FORCE_ENABLE_APPLITOOLS": false,
         "MACHINE_NAME": "Gavs-MacBook-Pro.local",
         "MSBRANCH": "learning",
         "OSRUN": "mac",
         "REGION": "global",
         "SIGNINMS": false,
-        "WEBENV": "uat"
+        "SLSO_SIGNIN": "get_cookies",
+        "WEBENV": "dev"
     },
     "EXCLUDE": [
         "broken"
     ],
-    "INCLUDE": [
-        "profiles_chrome"
-    ],
+    "INCLUDE": [],
     "LISTENERS": [],
     "PYTHONPATH": [
-        "/Users/gav/Repos/TestRepos/shared-web-test/libs",
-        "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/Libs"
+        "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/LumioLib",
+        "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/Keywords"
     ],
     "RESOURCE_DIRS": {
-        "SLSO-Library": [
-            "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/libs/SLSOLibrary"
+        "LumioLib": [
+            "/Users/gav/Repos/TestRepos/Treadstone/Sandbox/LumioLib"
         ],
         "Shared-Web-Test-Library": [
             "/Users/gav/Repos/TestRepos/shared-web-test/libs/CleanUp"

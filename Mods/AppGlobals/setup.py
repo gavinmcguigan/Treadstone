@@ -34,12 +34,13 @@ TEST_REPOS = [
 # -------------------------------------------------------------------------------------- Directories
 SANDBOX_DIR = os.path.join(LAUNCH_DIR, 'Sandbox')
 LUM_LIB_DIR = os.path.join(SANDBOX_DIR, 'LumioLib')
+LIB_DOC_DIR = os.path.join(LUM_LIB_DIR, "LibDocs")
+
 TESTS_DIR = os.path.join(SANDBOX_DIR, "Tests")
 CONFIG_DIR = os.path.join(SANDBOX_DIR, "Config")
 RESOURCE_DIR = os.path.join(SANDBOX_DIR, "Keywords")
 LOG_DIR = os.path.join(SANDBOX_DIR, 'Logs')
 ROBOT_TEST_LOGS = os.path.join(LOG_DIR, "RobotTestLogs")
-LIB_DOC_DIR = os.path.join(SANDBOX_DIR, "LibDocs")
 REPO_DIR = os.path.dirname(LAUNCH_DIR)       
 TREADSTONE_LOG = os.path.join(LOG_DIR, "{}Log".format(APP_NAME))
 CONFIG_FILE = os.path.join(CONFIG_DIR, "{}.json".format(APP_NAME))
@@ -96,7 +97,7 @@ CONFIG = {}
 def create_dirs():
     CREATE_DIRS = {
         SANDBOX_DIR: [TESTS_DIR, CONFIG_DIR, RESOURCE_DIR],
-        LOG_DIR: [ROBOT_TEST_LOGS, LIB_DOC_DIR, TREADSTONE_LOG]}
+        LOG_DIR: [ROBOT_TEST_LOGS, TREADSTONE_LOG]}
 
     for k, directories in CREATE_DIRS.items():
         try:

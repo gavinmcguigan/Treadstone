@@ -7,5 +7,5 @@
 # from .Library import pause_login
 # from .Library import go_to_library
 
-from .web_driver import get_lib_instance
-from .web_driver import multi_process_func_call
+from LumioLib.WebDriver.web_driver import get_lib_instance
+from LumioLib.WebDriver.web_driver import multi_process_func_call
