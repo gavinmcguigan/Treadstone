@@ -1,6 +1,6 @@
 *** Settings ***
 # Test Setup          Local: Clear Accounts 
-Library             SLSOLibrary
+Library             LumioLib
 Resource            ${CURDIR}/../../../slso-suite-test/keywords/kw_slso_purchase.txt
 
 *** Variables ***

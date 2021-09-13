@@ -1,4 +1,5 @@
 *** Settings ***
+Library         LumioLib
 
 
 *** Variables ***
@@ -15,3 +16,7 @@ First Test
 
     ${time}=  Get Time   123123123
     Log     ${time}
+
+
+Second Test
+    Test Keyword

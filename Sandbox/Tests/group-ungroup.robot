@@ -1,5 +1,5 @@
 *** Settings ***
-Library         LumioLibrary
+Library         LumioLib
 Library         Selenium2Library
 Library         Screenshot
 Resource        ${CURDIR}/../../../slso-suite-test/tests/__include_ui.txt

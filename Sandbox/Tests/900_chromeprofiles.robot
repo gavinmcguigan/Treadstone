@@ -1,5 +1,5 @@
 *** Settings ***
-Library             LumioLibrary
+Library             LumioLib
 Library             Selenium2Library
 Library             Screenshot
 Force Tags          purchase_smoke      profiles_chrome

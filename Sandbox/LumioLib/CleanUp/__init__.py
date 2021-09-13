@@ -7,3 +7,4 @@ from LumioLib.CleanUp.keywords import stripe_get_customers_on_all_accounts
 from LumioLib.CleanUp.keywords import stripe_delete_customers_on_all_accounts
 from LumioLib.CleanUp.keywords import stripe_show_customer_by_id
 
+from LumioLib.CleanUp.keywords import test_keyword

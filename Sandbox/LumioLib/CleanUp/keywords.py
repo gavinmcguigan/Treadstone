@@ -4,6 +4,7 @@ from typing import List, Union
 from robot.api import logger
 
 
+
 def salesforce_cleanup_for_user_id(user_account_id, really_delete=False):
     """ 
         Args: user_account_id, really_delete
@@ -47,6 +48,12 @@ def stripe_delete_customers_on_all_accounts(list_of_emails: Union[List[str], str
     """
     StripeClientManager.delete_customers_from_all_stripe_accounts(list_of_emails)
     
+
+def test_keyword():
+    from time import sleep
+    for i in range(10):
+        print(i)
+        sleep(0.5)
 
 def run_tests():
     from LumioLib.PurchaseForm.accounts import PurchaseAccounts
