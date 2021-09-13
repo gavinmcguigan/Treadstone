@@ -14,7 +14,7 @@ logger.debug('Init setup.py')
 p = Path(os.path.dirname(os.path.realpath(__file__)))
 LAUNCH_DIR = p.parent.parent
 APP_NAME = "Treadstone" 
-APP_VER = "v1.02.000"
+APP_VER = "v1.03.000"
 
 LOGIT = None 
 TEST_REPOS = [
@@ -36,14 +36,13 @@ SANDBOX_DIR = os.path.join(LAUNCH_DIR, 'Sandbox')
 
 TESTS_DIR = os.path.join(SANDBOX_DIR, "Tests")
 LISTENERS_DIR = os.path.join(SANDBOX_DIR, "Listeners")
-LIBRARIES_DIR = os.path.join(SANDBOX_DIR, "Libs")
 VARFILE_DIR = os.path.join(SANDBOX_DIR, "VariableFiles")
 CONFIG_DIR = os.path.join(SANDBOX_DIR, "Config")
-SCRIPT_DIR = os.path.join(SANDBOX_DIR, "Scripts")
 RESOURCE_DIR = os.path.join(SANDBOX_DIR, "Keywords")
 LOG_DIR = os.path.join(SANDBOX_DIR, 'Logs')
 ROBOT_TEST_LOGS = os.path.join(LOG_DIR, "RobotTestLogs")
 LIB_DOC_DIR = os.path.join(SANDBOX_DIR, "LibDocs")
+LUM_LIB_DIR = os.path.join(SANDBOX_DIR, 'LumioLib')
 REPO_DIR = os.path.dirname(LAUNCH_DIR)       
 
 TREADSTONE_LOG = os.path.join(LOG_DIR, "{}Log".format(APP_NAME))
@@ -76,7 +75,7 @@ DEFAULTS = {
     "EXCLUDE": [],
     "INCLUDE": [],
     "LISTENERS": [],
-    "PYTHONPATH": [LIBRARIES_DIR, RESOURCE_DIR],
+    "PYTHONPATH": [LUM_LIB_DIR, RESOURCE_DIR],
     "RESOURCE_DIRS": {k.title(): [os.path.join(REPO_DIR, k, "keywords")] for k in TEST_REPOS},
     "CHOICES": [],
     "TEST_LOCATIONS": {
@@ -100,7 +99,7 @@ CONFIG = {}
 
 def create_dirs():
     CREATE_DIRS = {
-        SANDBOX_DIR: [TESTS_DIR, LISTENERS_DIR, LIBRARIES_DIR, VARFILE_DIR, CONFIG_DIR, SCRIPT_DIR, RESOURCE_DIR],
+        SANDBOX_DIR: [TESTS_DIR, LISTENERS_DIR, VARFILE_DIR, CONFIG_DIR, RESOURCE_DIR],
         LOG_DIR: [ROBOT_TEST_LOGS, LIB_DOC_DIR, TREADSTONE_LOG]}
 
     for k, directories in CREATE_DIRS.items():
