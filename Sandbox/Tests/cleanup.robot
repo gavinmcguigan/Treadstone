@@ -6,7 +6,7 @@ Resource        ${CURDIR}/../../../slso-suite-test/keywords/kw_slso_purchase.txt
 
 *** Test Cases ***
 DELETE All Purchase Test Accounts
-    SLSO: Clean Up All Purchase Accounts
+    Clean Up All Purchase Accounts
 
 DELETE Smart Wizard Teacher 
     SLSO: Clean Up ID, Stripe, Salesforce With Email        gavinmcguigan.teacher@smartwizardschool.com 

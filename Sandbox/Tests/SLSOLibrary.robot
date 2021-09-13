@@ -51,4 +51,4 @@ Stripe Get Customer With Their ID
 
 *** Keywords ***
 Local: Clear Accounts
-    SLSO: Clean Up All Purchase Accounts
+    Clean Up All Purchase Accounts

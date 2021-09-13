@@ -6,11 +6,11 @@ Force Tags          purchase_smoke      profiles_chrome
 Test Teardown       Custom Teardown
 
 *** Variables ***  
-${test_account}     gavinmcguigan.teacher@smartwizardschool.com
+${test_account}      gavinmcguigan.teacher@smartwizardschool.com
 ${test_account2}     gavinmcguigan.student1@smartwizardschool.com
 ${test_account3}     gavinmcguigan.student2@smartwizardschool.com
 ${test_account4}     slso.purchase.ca@smartwizardschool.com
-${test_account5}      slso.purchase.uk@smartwizardschool.com
+${test_account5}     slso.purchase.uk@smartwizardschool.com
 ${test_account6}     slso.purchase.us@smartwizardschool.com
 ${test_account7}     slso.purchase.aus@smartwizardschool.com
 
