@@ -1,0 +1,4 @@
+**/*.pyc
+Sandbox/LumioLib/ChromeProfiles/Profiles/*
+Sandbox/Logs/*
+.python-version
