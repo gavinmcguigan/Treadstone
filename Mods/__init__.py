@@ -5,10 +5,16 @@ from pathlib import Path
 
 APP_NAME = "Treadstone" 
 APP_VER = "v1.01.000"
-p = Path(os.path.dirname(os.path.realpath(__file__)))
-launch_dir = p.parent 
-APP_LOG_FILE = os.path.join(launch_dir, "{}.log".format(APP_NAME))
+ 
 
+# Also in setup.py due to circular imports - need to find another way around this. 
+p = Path(os.path.dirname(os.path.realpath(__file__)))
+LAUNCH_DIR = p.parent
+
+TREADSTONE_LOG_DIR = os.path.join(LAUNCH_DIR, 'Sandbox', 'Logs', f"{APP_NAME}Log")
+APP_LOG_FILE = os.path.join(TREADSTONE_LOG_DIR, "{}.log".format(APP_NAME))
+
+# ------------------------------------------------------------------------------
 
 class TreadstoneFileHandler(RotatingFileHandler):
     def __init__(self, *args, **kwargs):
@@ -56,25 +62,4 @@ from .Bot import launcher
 logger.info('-')
 
 setup.config_init()
-
-
-"""
-Treadstone 
-    launch.py
-    
-    Mods    
-        __init__.py
-
-        AppGlobals
-            app_globals_funcs.py
-            setup.py 
-        Bot
-            launcher.py
-        Menu
-            top_menu.py
-        Vars
-            env_vars.py 
-
-
-"""
 

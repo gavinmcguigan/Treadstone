@@ -120,7 +120,6 @@ def launch_app():
     TL = TestLauncher()
     _PROFILE_GEN = setup.switch_profile_gen()
     default_profile_name, _ = _PROFILE_GEN.__next__()
-
     menu = top_menu.TestMenu(default_profile_name)
     running = True 
 

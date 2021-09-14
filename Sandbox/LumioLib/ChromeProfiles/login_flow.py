@@ -40,7 +40,7 @@ def find_an_element(list_of_elements, email, password, class_code, lib_inst, tim
 
     raise NoSuchElementException(f'None of the elements expected were found.')
 
-def login_to_lumio(email, user_password, url, element_expected="//img[@class='profile-picture']", class_code=None, lib_inst=None):
+def _login_to_lumio(email, user_password, url, element_expected="//img[@class='profile-picture']", class_code=None, lib_inst=None):
     logger.info(f'Go to: {url}')
 
     if lib_inst:

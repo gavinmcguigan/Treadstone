@@ -189,7 +189,7 @@ class _StripeClientManager:
         logger.info(f"{100*'-'}")
  
 
-StripeClientManager = _StripeClientManager() 
+_StripeClientManager = _StripeClientManager() 
 
 
 # Not used, yet!

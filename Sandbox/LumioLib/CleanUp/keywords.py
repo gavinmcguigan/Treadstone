@@ -1,5 +1,5 @@
 from LumioLib.CleanUp.SalesForceAPI import SalesForceAPI
-from LumioLib.CleanUp.StripeAPI import StripeClientManager
+from LumioLib.CleanUp.StripeAPI import _StripeClientManager
 from typing import List, Union 
 from robot.api import logger
 
@@ -28,25 +28,25 @@ def stripe_get_customers_on_all_accounts(list_of_emails: Union[List[str], str]) 
     """ Logs all customers in both 'SMART_TEST_ULC' and 'SMART_TEST_CORP' 
         args: list_of_emails -> can be list of strings or single string (email address)
     """
-    StripeClientManager.get_customers_on_all_accounts(list_of_emails)
+    _StripeClientManager.get_customers_on_all_accounts(list_of_emails)
 
 def stripe_show_customer_by_id(cust_id: str) -> None:
     """ Takes in a customer id and checks if it exists on all registerd stripe accounts. """
-    StripeClientManager.get_customer_by_id(cust_id)
+    _StripeClientManager.get_customer_by_id(cust_id)
 
 def stripe_delete_customer_by_email_and_country(email: str, country: str) -> None:
     """ Deletes customers with passed in email from the Stripe account mapped to the country passed in. """
-    StripeClientManager.delete_customer_by_email_and_country(email, country)
+    _StripeClientManager.delete_customer_by_email_and_country(email, country)
 
 def stripe_delete_customer_by_email_and_stripe_account(email: str, stripe_account: str) -> None:
     """ Deletes customers with passed in email from passed in Stripe account.  """
-    StripeClientManager.delete_customer_by_email_and_stripe_account(email, stripe_account)
+    _StripeClientManager.delete_customer_by_email_and_stripe_account(email, stripe_account)
     
 def stripe_delete_customers_on_all_accounts(list_of_emails: Union[List[str], str]) -> None:
     """ Deletes all records of the account(s) in both 'SMART_TEST_ULC' and 'SMART_TEST_CORP' 
         args: list_of_emails -> can be list of strings or single string (email address)
     """
-    StripeClientManager.delete_customers_from_all_stripe_accounts(list_of_emails)
+    _StripeClientManager.delete_customers_from_all_stripe_accounts(list_of_emails)
     
 
 def test_keyword():

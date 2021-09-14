@@ -10,7 +10,9 @@ logger.debug('Init top_menu.py')
 class TestMenu():
     def __init__(self, profile_name):
         self.profile = profile_name[:-5]
+        print('Taking too long')
         self.project_locations = app_funcs.get_project_locations(profile_name)     # 
+        print('.....')
         self.where_we_are = 'PROJECTS'                          # Can be PROJECTS, TEST_SUITES or TEST_CASES
         self.project, self.test_suite, self.test_case = None, None, None 
         self.display_options = self.project_locations 

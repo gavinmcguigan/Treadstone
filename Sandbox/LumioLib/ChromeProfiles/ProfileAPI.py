@@ -9,7 +9,14 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-PROFILE_FOLDER = path.dirname(path.realpath(__file__))
+from LumioLib.WebDriver import get_lib_instance
+
+from SeleniumLibrary.base import keyword, LibraryComponent
+from SeleniumLibrary.keywords import BrowserManagementKeywords, browsermanagement
+from SeleniumLibrary import SeleniumLibrary
+
+
+PROFILE_FOLDER = path.join(path.dirname(path.realpath(__file__)), 'Profiles')
 URL_ENDPOINT = 'http://10.7.70.27:5002'
 
 
@@ -58,17 +65,24 @@ def put(*args, **kwargs):
 def delete(*args, **kwargs):
     return requests.delete(*args, **kwargs)
 
-def profile_handler_inst(func):
+def _profile_handler_inst(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         return func(ProfileHandler(*args, **kwargs))
     return wrapper 
 
-def get_all_profile_accounts():
-    return [a.get('account_email') for a in get(url=f"{URL_ENDPOINT}/emails")[1].get('Emails', [])]    
+def _get_all_profile_accounts(which):
+    # l = [a.get('account_email') for a in get(url=f"{URL_ENDPOINT}/emails")[1].get('Emails', [])]    
+    if which == 'All':
+        l = get(url=f"{URL_ENDPOINT}/emails")[1].get('Emails', [])
+    elif which == 'Zips':
+        l = [n.get('zip_filename', None) for n in get(url=f"{URL_ENDPOINT}/emails")[1].get('Emails', [])]
 
+    for e in l:
+        logger.info(e)
+    return l 
 
-class ProfileHandler:
+class ProfileHandler(SeleniumLibrary):
     def __init__(self, email):
         self.email_account = email
         self.machine_name = node().replace('-', '').replace('.', '')
@@ -207,8 +221,50 @@ class ProfileHandler:
         return self.options
 
     def open_browser_for_profile(self):
-        options = self.download_chrome_profile()
-        return webdriver.Chrome(options=options)
+        self.download_chrome_profile()
+        print(self.options)
+        return webdriver.Chrome(options=self.options)
+
+    def try_this(self):
+        self.get_profile_db_entry()
+        self.get_zip_file()
+        self.get_webdriver_options()
+
+        browser = webdriver.Chrome(options=self.options)
+        print(get_lib_instance())
+        browser.get('https://www.google.es')
+        sleep(10)
+        browser.quit()
+
+    # def open_cp_browser(self):
+        
+    #     self.get_profile_db_entry()
+    #     self.get_zip_file()
+
+    #     # options = webdriver.ChromeOptions()
+    #     # options.add_argument(f"user-data-dir={self.profile_folder_location}")
+    #     # options.add_experimental_option('prefs', {'profile': {'exit_type': 'Normal'}})
+
+        
+
+    #     # print(self.options)
+    #     browsermanagement = BrowserManagementKeywords(self)
+    #     browsermanagement.open_browser('http://www.google.es', browser='Chrome')
+
+    #     # browsermanagement.create_webdriver('Chrome', options=options)
+    #     sleep(10)
+    #     # browsermanagement.close_browser()
+    #     browsermanagement.close_all_browsers()
+    #     #browser_management.open_browser('http://www.google.es', 'chrome')
+    #     #self.open_browser('http://www.google.es', 'chrome')
+
+    # def close_cp_browser(self):
+    #     self.close_all_browsers()
 
 
-
+if __name__ == "__main__":
+    inst = ProfileHandler(email='gavinmcguigan.student1@smartwizardschool.com')
+    inst.try_this()
+    sleep(5)
+    #inst.options.close()
+    

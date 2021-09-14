@@ -1,0 +1,1 @@
+from LumioLib.PurchaseForm.purchase_form import go_to_purchase_form_and_fill_in

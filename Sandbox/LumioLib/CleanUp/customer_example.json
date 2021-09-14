@@ -1,0 +1,38 @@
+{
+    "address": null,
+    "balance": 0,
+    "created": 1617976603,
+    "currency": null,
+    "default_source": null,
+    "delinquent": false,
+    "description": "Wayne Gretzky",
+    "discount": null,
+    "email": "slso.purchase.ca@smartwizardschool.com",
+    "id": "cus_JGsaUvdoV0Bgja",
+    "invoice_prefix": "7AE61F89",
+    "invoice_settings": {
+        "custom_fields": null,
+        "default_payment_method": null,
+        "footer": null
+    },
+    "livemode": false,
+    "metadata": {},
+    "name": "Wayne Gretzky",
+    "next_invoice_sequence": 1,
+    "object": "customer",
+    "phone": null,
+    "preferred_locales": [],
+    "shipping": {
+        "address": {
+            "city": "Kelowna",
+            "country": "CA",
+            "line1": "Unit 8 - 1905 Evergreen Court",
+            "line2": "2nd Line",
+            "postal_code": "V1Y 9L4",
+            "state": "BC"
+        },
+        "name": "Wayne Gretzky",
+        "phone": null
+    },
+    "tax_exempt": "none"
+}

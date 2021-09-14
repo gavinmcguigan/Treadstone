@@ -42,10 +42,12 @@ RESOURCE_DIR = os.path.join(SANDBOX_DIR, "Keywords")
 LOG_DIR = os.path.join(SANDBOX_DIR, 'Logs')
 ROBOT_TEST_LOGS = os.path.join(LOG_DIR, "RobotTestLogs")
 REPO_DIR = os.path.dirname(LAUNCH_DIR)       
-TREADSTONE_LOG = os.path.join(LOG_DIR, "{}Log".format(APP_NAME))
 CONFIG_FILE = os.path.join(CONFIG_DIR, "{}.json".format(APP_NAME))
-APP_LOG_FILE = os.path.join(TREADSTONE_LOG, "{}.log".format(APP_NAME))
 
+TREADSTONE_LOG_DIR = os.path.join(LOG_DIR, f"{APP_NAME}Log")
+print('---')
+print(TREADSTONE_LOG_DIR)
+print('---')
 def get_os_run():
     op_sys = 'mac' if 'darwin' in sys.platform else 'win'
     return op_sys
@@ -97,7 +99,7 @@ CONFIG = {}
 def create_dirs():
     CREATE_DIRS = {
         SANDBOX_DIR: [TESTS_DIR, CONFIG_DIR, RESOURCE_DIR],
-        LOG_DIR: [ROBOT_TEST_LOGS, TREADSTONE_LOG]}
+        LOG_DIR: [ROBOT_TEST_LOGS, TREADSTONE_LOG_DIR]}
 
     for k, directories in CREATE_DIRS.items():
         try:

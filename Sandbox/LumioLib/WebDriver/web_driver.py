@@ -12,12 +12,15 @@ def get_lib_instance():
     libs = ('SeleniumLibrary', 'Selenium2Library')
     for lib in libs:
         try:
-            driver = BuiltIn().get_library_instance(f'{lib}')._current_browser()
+            # driver = BuiltIn().get_library_instance(f'{lib}')._current_browser()
+            drivers = BuiltIn().get_library_instance(all=True)
         except:
             pass
         else:
-            logger.info(f'Using: {lib}')
-            return driver
+            # logger.info(f'Using: {lib}')
+            for k, v in drivers.items():
+                logger.info(f'{k:<40}{v}')
+            return drivers
     else:
         raise RuntimeError(f'None of these library instances found: {libs}')
 

@@ -1,8 +1,8 @@
-from LumioLib.ChromeProfiles.ProfileAPI import profile_handler_inst, get_all_profile_accounts
-from LumioLib.ChromeProfiles.login_flow import login_to_lumio
+from LumioLib.ChromeProfiles.ProfileAPI import _profile_handler_inst, _get_all_profile_accounts
+from LumioLib.ChromeProfiles.login_flow import _login_to_lumio
 from robot.api import logger
 
-@profile_handler_inst
+@_profile_handler_inst
 def download_chrome_profile(ph):
     """ 
      Args:  email
@@ -11,7 +11,7 @@ def download_chrome_profile(ph):
     """
     return ph.download_chrome_profile()                         
 
-@profile_handler_inst
+@_profile_handler_inst
 def upload_chrome_profile(ph):
     """
      Args:  email
@@ -33,16 +33,16 @@ def upload_chrome_profiles(list_of_emails: list):
         results.append(upload_chrome_profile(email))
     logger.info(f'Results: {str(results)}')
 
-@profile_handler_inst
+@_profile_handler_inst
 def delete_chrome_profile_from_server(ph):                      
     """
-        Takes 1 argument:  email
+        Args:  email
         Delete db entry + the profile zip file on the flask server. 
         Returns: True if successful else False.
     """
     return ph.delete_chrome_profile()                           
 
-@profile_handler_inst
+@_profile_handler_inst
 def remove_local_profile(ph):
     """
         Args:  email
@@ -51,29 +51,43 @@ def remove_local_profile(ph):
     """
     ph.remove_local_profile() 
 
-def get_all_profile_emails():
+def get_profile_accounts():
     """
         Args: None 
-        Returns: list of emails that have a chrome profiles on the server. 
+        Returns: list dictionaries for each chrome profile on the server. 
     """
-    return get_all_profile_accounts()
+    return _get_all_profile_accounts(which='All')
+
+
+def get_list_of_zips_available():
+    """
+        Args: None
+        Returns: list of zip filenames on the server. 
+    """
+    return _get_all_profile_accounts(which='Zips')
+
 
 def profile_login_teacher(email, user_password, url):
     """
         Args: email, password, url
         Returns: None
     """
-    login_to_lumio(email, user_password, url)
+    _login_to_lumio(email, user_password, url)
 
 def profile_login_student(email, user_password, url, class_code):
     """
         Args: email, password, url
         Returns: None
     """
-    login_to_lumio(email, user_password, url, class_code)
+    _login_to_lumio(email, user_password, url, class_code)
+
+@_profile_handler_inst
+def open_cp(ph):
+    return ph.open_browser_for_profile()
+
 
 # --------------------------------------------------------------------------------------------------------------------------------------
-@profile_handler_inst
+@_profile_handler_inst
 def open_browser_with_chrome_profile(ph):
     """ 
         This is the only keyword that will open the browser (with chrome profile) using the webdriver, rather than using Robot Framework.

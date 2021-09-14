@@ -1,5 +1,5 @@
 from LumioLib.PurchaseForm.accounts import PURCHASE_DATA, Account_AUS, UserPass, ElementExpected, PurchaseAccounts
-from LumioLib.ChromeProfiles.login_flow import login_to_lumio
+from LumioLib.ChromeProfiles.login_flow import _login_to_lumio
 from LumioLib.ChromeProfiles.keywords import open_browser_with_chrome_profile 
 from time import sleep, time 
 from robot.api import logger

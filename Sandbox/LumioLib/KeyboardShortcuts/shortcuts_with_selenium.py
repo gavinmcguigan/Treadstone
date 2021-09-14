@@ -43,7 +43,7 @@ mac_cmds = {
 
 
 # Needs more work - Doesn't work well!
-def shortcut_decorator(func):
+def _shortcut_decorator(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         logger.console(f"\n{func.__name__.replace('_', ' ').title()}")
